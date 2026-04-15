@@ -215,43 +215,44 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+document.getElementById("form").addEventListener("submit", async function (e) {
+  e.preventDefault();
 
-  const form = document.getElementById("form");
-  const result = document.getElementById("result");
+  const formData = Object.fromEntries(new FormData(this));
+  const resultBox = document.getElementById("result");
 
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault(); // 🚫 stops refresh
+  try {
+    const res = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-form", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
 
-    const formData = Object.fromEntries(new FormData(form));
+    const data = await res.json();
 
-    try {
-      const res = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-form", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
-      });
+    console.log("Response:", data);
 
-      const data = await res.json();
+    resultBox.style.display = "block";
 
-      result.style.display = "block";
-      result.innerHTML = data.html || "<p>No response from server</p>";
-
-    } catch (err) {
-      console.error(err);
-      result.style.display = "block";
-      result.innerHTML = "<p style='color:red;'>Server connection failed</p>";
+    if (data.html) {
+      resultBox.innerHTML = data.html;
+    } else {
+      resultBox.innerHTML = "<p>No evaluation received from server.</p>";
     }
-  });
 
-  // Allergy toggle
-  const allergySelect = document.getElementById("allergy");
-  const allergyDetails = document.getElementById("allergyDetails");
+  } catch (err) {
+    console.error(err);
+    resultBox.style.display = "block";
+    resultBox.innerHTML = "<p style='color:red;'>Server connection failed</p>";
+  }
+});
 
-  allergySelect.addEventListener("change", function () {
-    allergyDetails.style.display = (this.value === "Yes") ? "block" : "none";
-  });
+// Allergy toggle
+const allergySelect = document.getElementById("allergy");
+const allergyDetails = document.getElementById("allergyDetails");
 
+allergySelect.addEventListener("change", function () {
+  allergyDetails.style.display = (this.value === "Yes") ? "block" : "none";
 });
 </script>
 
