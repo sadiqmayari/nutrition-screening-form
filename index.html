@@ -140,6 +140,10 @@
       <option>No</option>
       <option>Yes</option>
     </select>
+    <div id="allergyDetails" style="display:none;">
+  <label>Specify Allergy</label>
+  <input name="allergy_details" placeholder="Enter details">
+</div>
 
     <label>Substance Exposure</label>
     <select name="substance">
@@ -217,6 +221,16 @@ document.getElementById("form").addEventListener("submit", async function(e) {
 
   document.getElementById("result").style.display = "block";
   document.getElementById("result").innerHTML = data.html;
+});
+  const allergySelect = document.querySelector('[name="allergy"]');
+const allergyDetails = document.getElementById("allergyDetails");
+
+allergySelect.addEventListener("change", function () {
+  if (this.value === "Yes") {
+    allergyDetails.style.display = "block";
+  } else {
+    allergyDetails.style.display = "none";
+  }
 });
 </script>
 
