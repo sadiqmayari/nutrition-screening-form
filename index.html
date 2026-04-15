@@ -1,259 +1,264 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Nutrition Screening Form</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Nutrition Intelligence System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-      padding: 20px;
-    }
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+  padding: 20px;
+}
 
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
+/* MAIN CONTAINER */
+.container {
+  max-width: 1000px;
+  margin: auto;
+  background: rgba(255,255,255,0.05);
+  padding: 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
 
-    h2 {
-      border-bottom: 2px solid #eee;
-      padding-bottom: 5px;
-      margin-top: 20px;
-    }
+/* HEADERS */
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 28px;
+  color: #38bdf8;
+}
 
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
-    }
+.section-title {
+  margin-top: 25px;
+  padding: 10px;
+  background: linear-gradient(90deg, #0ea5e9, #6366f1);
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(56,189,248,0.4);
+  font-weight: bold;
+}
 
-    input, select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
 
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+@media(max-width:768px){
+  .grid { grid-template-columns: 1fr; }
+}
 
-    button:hover {
-      background: #0056b3;
-    }
+/* INPUT STYLE */
+label {
+  font-size: 13px;
+  margin-top: 10px;
+  display: block;
+  opacity: 0.8;
+}
 
-    .result {
-      margin-top: 20px;
-      padding: 15px;
-      background: #eef7ff;
-      border-left: 5px solid #007bff;
-      display: none;
-    }
-  </style>
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
+}
+
+input:focus, select:focus {
+  box-shadow: 0 0 10px #38bdf8;
+}
+
+/* BUTTON */
+button {
+  margin-top: 25px;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.02);
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.8);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content {
+  background: white;
+  color: black;
+  width: 90%;
+  max-width: 600px;
+  padding: 25px;
+  border-radius: 15px;
+  animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.7); opacity:0; }
+  to { transform: scale(1); opacity:1; }
+}
+
+.close-btn {
+  float: right;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.new-btn {
+  margin-top: 15px;
+  background: #2563eb;
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
+<h1>🧠 Nutrition Intelligence System</h1>
 
-  <h1>Nutrition Screening Form</h1>
+<form id="form">
 
-  <form id="form">
-
-    <h2>1. Basic Information</h2>
-
+<!-- BASIC -->
+<div class="section-title">1. Basic Information</div>
+<div class="grid">
+  <div>
     <label>Name</label>
     <input name="name" required>
-
+  </div>
+  <div>
     <label>Age</label>
-    <input type="number" name="age" required>
+    <input type="number" name="age">
+  </div>
+</div>
 
-    <label>Gender</label>
-    <select name="gender">
-      <option>Male</option>
-      <option>Female</option>
-    </select>
-
-    <label>Contact Number</label>
-    <input name="contact">
-
-    <h2>2. Anthropometry</h2>
-
+<!-- BODY -->
+<div class="section-title">2. Body Metrics</div>
+<div class="grid">
+  <div>
     <label>Height (cm)</label>
-    <input type="number" name="height" required>
-
+    <input name="height">
+  </div>
+  <div>
     <label>Weight (kg)</label>
-    <input type="number" name="weight" required>
+    <input name="weight">
+  </div>
+</div>
 
-    <h2>3. Lifestyle</h2>
-
-    <label>Physical Activity</label>
+<!-- LIFESTYLE -->
+<div class="section-title">3. Lifestyle</div>
+<div class="grid">
+  <div>
+    <label>Activity</label>
     <select name="activity">
       <option>Sedentary</option>
-      <option>Low Active</option>
       <option>Active</option>
-      <option>Very Active</option>
     </select>
+  </div>
 
-    <label>Water Intake</label>
+  <div>
+    <label>Water</label>
     <select name="water">
-      <option value="3">&lt; 4</option>
-      <option value="5">4-6</option>
-      <option value="7">6-8</option>
+      <option value="3">Low</option>
+      <option value="5">Medium</option>
+      <option value="7">High</option>
     </select>
+  </div>
+</div>
 
-    <label>Meals per Day</label>
-    <select name="meals">
-      <option value="1">1</option>
-      <option value="2">2-3</option>
-      <option value="4">&gt;3</option>
-    </select>
-
-    <h2>4. Diet Risk</h2>
-
-    <label>Packed Food</label>
-    <select name="packed">
-      <option value="1">0-1</option>
-      <option value="2">1-2</option>
-      <option value="3">≥3</option>
-    </select>
-
+<!-- DIET -->
+<div class="section-title">4. Diet Risk</div>
+<div class="grid">
+  <div>
     <label>Fast Food</label>
     <select name="fastfood">
-      <option value="1">&lt;1</option>
-      <option value="2">1-2</option>
-      <option value="3">≥3</option>
+      <option value="1">Low</option>
+      <option value="3">High</option>
     </select>
+  </div>
 
-    <h2>5. Medical</h2>
-
-    <label>Food Allergies</label>
-    <select name="allergy" id="allergy">
-      <option>No</option>
-      <option>Yes</option>
+  <div>
+    <label>Packed Food</label>
+    <select name="packed">
+      <option value="1">Low</option>
+      <option value="3">High</option>
     </select>
+  </div>
+</div>
 
-    <div id="allergyDetails" style="display:none;">
-      <label>Specify Allergy</label>
-      <input name="allergy_details">
-    </div>
+<button type="submit">🚀 Analyze Health</button>
 
-    <label>Substance Exposure</label>
-    <select name="substance">
-      <option>No</option>
-      <option>Yes</option>
-    </select>
+</form>
+</div>
 
-    <h2>6. Clinical Observation</h2>
-
-    <label>Skin</label>
-    <select name="skin">
-      <option>Normal</option>
-      <option>Dry</option>
-      <option>Scaly</option>
-    </select>
-
-    <label>Eyes</label>
-    <select name="eyes">
-      <option>Normal</option>
-      <option>Pale</option>
-      <option>Redness</option>
-      <option>Yellow</option>
-    </select>
-
-    <label>Lips</label>
-    <select name="lips">
-      <option>Normal</option>
-      <option>Dry</option>
-      <option>Dark</option>
-    </select>
-
-    <label>Hair</label>
-    <select name="hair">
-      <option>Normal</option>
-      <option>Dry</option>
-      <option>Brittle</option>
-    </select>
-
-    <label>Scalp</label>
-    <select name="scalp">
-      <option>Normal</option>
-      <option>Dry</option>
-      <option>Scaly</option>
-      <option>Oily</option>
-    </select>
-
-    <label>Nails</label>
-    <select name="nails">
-      <option>Normal</option>
-      <option>Brittle</option>
-      <option>Translucent</option>
-    </select>
-
-    <button type="submit">Evaluate & Save</button>
-
-  </form>
-
-  <div id="result" class="result"></div>
-
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">✖</span>
+    <div id="modalBody"></div>
+    <button class="new-btn" onclick="resetForm()">Start New Analysis</button>
+  </div>
 </div>
 
 <script>
-document.getElementById("form").addEventListener("submit", async function (e) {
+const form = document.getElementById("form");
+const modal = document.getElementById("modal");
+const modalBody = document.getElementById("modalBody");
+
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const formData = Object.fromEntries(new FormData(this));
-  const resultBox = document.getElementById("result");
+  const formData = Object.fromEntries(new FormData(form));
 
   try {
     const res = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-form", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {"Content-Type": "application/json"},
       body: JSON.stringify(formData)
     });
 
     const data = await res.json();
 
-    console.log("Response:", data);
-
-    resultBox.style.display = "block";
-
-    if (data.html) {
-      resultBox.innerHTML = data.html;
-    } else {
-      resultBox.innerHTML = "<p>No evaluation received from server.</p>";
-    }
+    modalBody.innerHTML = data.html || "<p>No response</p>";
+    modal.style.display = "flex";
 
   } catch (err) {
-    console.error(err);
-    resultBox.style.display = "block";
-    resultBox.innerHTML = "<p style='color:red;'>Server connection failed</p>";
+    modalBody.innerHTML = "<p style='color:red;'>Server error</p>";
+    modal.style.display = "flex";
   }
 });
 
-// Allergy toggle
-const allergySelect = document.getElementById("allergy");
-const allergyDetails = document.getElementById("allergyDetails");
+function closeModal() {
+  modal.style.display = "none";
+}
 
-allergySelect.addEventListener("change", function () {
-  allergyDetails.style.display = (this.value === "Yes") ? "block" : "none";
-});
+function resetForm() {
+  form.reset();
+  modal.style.display = "none";
+}
 </script>
 
 </body>
