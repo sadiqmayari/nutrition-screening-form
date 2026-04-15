@@ -71,11 +71,13 @@
 <body>
 
 <div class="container">
+
   <h1>Nutrition Screening Form</h1>
 
   <form id="form">
 
     <h2>1. Basic Information</h2>
+
     <label>Name</label>
     <input name="name" required>
 
@@ -92,6 +94,7 @@
     <input name="contact">
 
     <h2>2. Anthropometry</h2>
+
     <label>Height (cm)</label>
     <input type="number" name="height" required>
 
@@ -99,6 +102,7 @@
     <input type="number" name="weight" required>
 
     <h2>3. Lifestyle</h2>
+
     <label>Physical Activity</label>
     <select name="activity">
       <option>Sedentary</option>
@@ -122,6 +126,7 @@
     </select>
 
     <h2>4. Diet Risk</h2>
+
     <label>Packed Food</label>
     <select name="packed">
       <option value="1">0-1</option>
@@ -139,14 +144,14 @@
     <h2>5. Medical</h2>
 
     <label>Food Allergies</label>
-    <select name="allergy">
+    <select name="allergy" id="allergy">
       <option>No</option>
       <option>Yes</option>
     </select>
 
     <div id="allergyDetails" style="display:none;">
       <label>Specify Allergy</label>
-      <input name="allergy_details" placeholder="Enter details">
+      <input name="allergy_details">
     </div>
 
     <label>Substance Exposure</label>
@@ -206,43 +211,47 @@
   </form>
 
   <div id="result" class="result"></div>
+
 </div>
 
 <script>
-document.getElementById("form").addEventListener("submit", async function(e) {
-  e.preventDefault();
+document.addEventListener("DOMContentLoaded", function () {
 
-  const formData = Object.fromEntries(new FormData(this));
+  const form = document.getElementById("form");
+  const result = document.getElementById("result");
 
-  try {
-    const res = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-form", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
-    });
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault(); // 🚫 stops refresh
 
-    const data = await res.json();
+    const formData = Object.fromEntries(new FormData(form));
 
-    document.getElementById("result").style.display = "block";
-    document.getElementById("result").innerHTML = data.html;
+    try {
+      const res = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
 
-  } catch (error) {
-    console.error(error);
-    document.getElementById("result").style.display = "block";
-    document.getElementById("result").innerHTML = "<p style='color:red;'>Server connection failed</p>";
-  }
-});
+      const data = await res.json();
 
-// Allergy toggle
-const allergySelect = document.querySelector('[name="allergy"]');
-const allergyDetails = document.getElementById("allergyDetails");
+      result.style.display = "block";
+      result.innerHTML = data.html || "<p>No response from server</p>";
 
-allergySelect.addEventListener("change", function () {
-  if (this.value === "Yes") {
-    allergyDetails.style.display = "block";
-  } else {
-    allergyDetails.style.display = "none";
-  }
+    } catch (err) {
+      console.error(err);
+      result.style.display = "block";
+      result.innerHTML = "<p style='color:red;'>Server connection failed</p>";
+    }
+  });
+
+  // Allergy toggle
+  const allergySelect = document.getElementById("allergy");
+  const allergyDetails = document.getElementById("allergyDetails");
+
+  allergySelect.addEventListener("change", function () {
+    allergyDetails.style.display = (this.value === "Yes") ? "block" : "none";
+  });
+
 });
 </script>
 
