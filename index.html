@@ -11,75 +11,85 @@ body {
   margin: 0;
   background: linear-gradient(135deg, #0f172a, #1e293b);
   color: white;
-  padding: 20px;
+  padding: 15px;
 }
 
-/* MAIN CONTAINER */
+/* CONTAINER */
 .container {
-  max-width: 1000px;
+  max-width: 950px;
   margin: auto;
-  background: rgba(255,255,255,0.05);
-  padding: 25px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  background: rgba(255,255,255,0.06);
+  padding: 20px;
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
 }
 
-/* HEADERS */
+/* TITLE */
 h1 {
   text-align: center;
-  margin-bottom: 25px;
-  font-size: 28px;
   color: #38bdf8;
+  font-size: 24px;
 }
 
+/* SECTION HEADER */
 .section-title {
-  margin-top: 25px;
+  margin-top: 20px;
   padding: 10px;
   background: linear-gradient(90deg, #0ea5e9, #6366f1);
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(56,189,248,0.4);
   font-weight: bold;
+  box-shadow: 0 0 12px rgba(56,189,248,0.3);
 }
 
-/* GRID */
+/* GRID FIXED */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
+  gap: 12px;
+  margin-top: 10px;
 }
 
 @media(max-width:768px){
   .grid { grid-template-columns: 1fr; }
 }
 
-/* INPUT STYLE */
-label {
-  font-size: 13px;
-  margin-top: 10px;
-  display: block;
-  opacity: 0.8;
+/* FIELD FIX */
+.field {
+  display: flex;
+  flex-direction: column;
 }
 
+label {
+  font-size: 13px;
+  margin-bottom: 6px;
+  opacity: 0.9;
+}
+
+/* INPUT FIX (WHITE TEXT ISSUE SOLVED) */
 input, select {
   width: 100%;
   padding: 10px;
-  margin-top: 5px;
   border-radius: 10px;
-  border: none;
-  outline: none;
-  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.12);
   color: white;
-  box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
+  outline: none;
 }
 
+/* FIX DROPDOWN TEXT */
+select option {
+  color: black;
+}
+
+/* FOCUS */
 input:focus, select:focus {
-  box-shadow: 0 0 10px #38bdf8;
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
 }
 
 /* BUTTON */
 button {
-  margin-top: 25px;
+  margin-top: 20px;
   width: 100%;
   padding: 14px;
   background: linear-gradient(90deg, #22c55e, #16a34a);
@@ -88,38 +98,35 @@ button {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 button:hover {
   transform: scale(1.02);
 }
 
-/* MODAL */
+/* MODAL FIX (RESPONSIVE + SCROLL SAFE) */
 .modal {
   display: none;
   position: fixed;
-  top:0; left:0;
+  top:0;
+  left:0;
   width:100%;
   height:100%;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.85);
   justify-content:center;
   align-items:center;
+  padding: 20px;
 }
 
 .modal-content {
   background: white;
   color: black;
-  width: 90%;
+  width: 100%;
   max-width: 600px;
-  padding: 25px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 20px;
   border-radius: 15px;
-  animation: pop 0.3s ease;
-}
-
-@keyframes pop {
-  from { transform: scale(0.7); opacity:0; }
-  to { transform: scale(1); opacity:1; }
 }
 
 .close-btn {
@@ -130,7 +137,17 @@ button:hover {
 
 .new-btn {
   margin-top: 15px;
+  width: 100%;
+  padding: 12px;
+  border: none;
   background: #2563eb;
+  color: white;
+  border-radius: 10px;
+}
+
+/* ALLERGY */
+.hidden {
+  display: none;
 }
 </style>
 </head>
@@ -142,36 +159,33 @@ button:hover {
 
 <form id="form">
 
-<!-- BASIC -->
 <div class="section-title">1. Basic Information</div>
 <div class="grid">
-  <div>
+  <div class="field">
     <label>Name</label>
     <input name="name" required>
   </div>
-  <div>
+  <div class="field">
     <label>Age</label>
     <input type="number" name="age">
   </div>
 </div>
 
-<!-- BODY -->
 <div class="section-title">2. Body Metrics</div>
 <div class="grid">
-  <div>
+  <div class="field">
     <label>Height (cm)</label>
     <input name="height">
   </div>
-  <div>
+  <div class="field">
     <label>Weight (kg)</label>
     <input name="weight">
   </div>
 </div>
 
-<!-- LIFESTYLE -->
 <div class="section-title">3. Lifestyle</div>
 <div class="grid">
-  <div>
+  <div class="field">
     <label>Activity</label>
     <select name="activity">
       <option>Sedentary</option>
@@ -179,20 +193,19 @@ button:hover {
     </select>
   </div>
 
-  <div>
-    <label>Water</label>
+  <div class="field">
+    <label>Water Intake</label>
     <select name="water">
-      <option value="3">Low</option>
-      <option value="5">Medium</option>
-      <option value="7">High</option>
+      <option value="3">&lt; 4</option>
+      <option value="5">4-6</option>
+      <option value="7">6-8</option>
     </select>
   </div>
 </div>
 
-<!-- DIET -->
 <div class="section-title">4. Diet Risk</div>
 <div class="grid">
-  <div>
+  <div class="field">
     <label>Fast Food</label>
     <select name="fastfood">
       <option value="1">Low</option>
@@ -200,7 +213,7 @@ button:hover {
     </select>
   </div>
 
-  <div>
+  <div class="field">
     <label>Packed Food</label>
     <select name="packed">
       <option value="1">Low</option>
@@ -209,8 +222,31 @@ button:hover {
   </div>
 </div>
 
-<button type="submit">🚀 Analyze Health</button>
+<div class="section-title">5. Medical</div>
+<div class="grid">
+  <div class="field">
+    <label>Food Allergy</label>
+    <select name="allergy" id="allergy">
+      <option>No</option>
+      <option>Yes</option>
+    </select>
+  </div>
 
+  <div class="field hidden" id="allergyBox">
+    <label>Specify Allergy</label>
+    <input name="allergy_details">
+  </div>
+
+  <div class="field">
+    <label>Substance Exposure</label>
+    <select name="substance">
+      <option>No</option>
+      <option>Yes</option>
+    </select>
+  </div>
+</div>
+
+<button type="submit">🚀 Analyze Health</button>
 </form>
 </div>
 
@@ -219,7 +255,7 @@ button:hover {
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">✖</span>
     <div id="modalBody"></div>
-    <button class="new-btn" onclick="resetForm()">Start New Analysis</button>
+    <button class="new-btn" onclick="resetForm()">New Analysis</button>
   </div>
 </div>
 
@@ -227,6 +263,8 @@ button:hover {
 const form = document.getElementById("form");
 const modal = document.getElementById("modal");
 const modalBody = document.getElementById("modalBody");
+const allergy = document.getElementById("allergy");
+const allergyBox = document.getElementById("allergyBox");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -236,29 +274,33 @@ form.addEventListener("submit", async (e) => {
   try {
     const res = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-form", {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: {"Content-Type":"application/json"},
       body: JSON.stringify(formData)
     });
 
     const data = await res.json();
 
-    modalBody.innerHTML = data.html || "<p>No response</p>";
+    modalBody.innerHTML = data.html || "No response";
     modal.style.display = "flex";
 
   } catch (err) {
-    modalBody.innerHTML = "<p style='color:red;'>Server error</p>";
+    modalBody.innerHTML = "Server error";
     modal.style.display = "flex";
   }
 });
 
-function closeModal() {
+function closeModal(){
   modal.style.display = "none";
 }
 
-function resetForm() {
+function resetForm(){
   form.reset();
   modal.style.display = "none";
 }
+
+allergy.addEventListener("change", () => {
+  allergyBox.classList.toggle("hidden", allergy.value !== "Yes");
+});
 </script>
 
 </body>
