@@ -211,12 +211,16 @@ document.getElementById("form").addEventListener("submit", async function(e) {
 
   const formData = Object.fromEntries(new FormData(this));
 
-  const response = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-form", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(formData)
-  });
+  const res = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-form", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(formData)
+});
 
+const data = await res.json();
+
+document.getElementById("result").style.display = "block";
+document.getElementById("result").innerHTML = data.html;
   const data = await response.json();
 
   document.getElementById("result").style.display = "block";
