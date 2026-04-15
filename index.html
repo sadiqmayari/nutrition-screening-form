@@ -6,20 +6,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: white;
-  padding: 15px;
+* {
+  box-sizing: border-box;
 }
 
-/* CONTAINER */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #0b1220, #1e293b);
+  color: white;
+  padding: 16px;
+}
+
+/* MAIN WRAPPER */
 .container {
-  max-width: 950px;
+  max-width: 1100px;
   margin: auto;
   background: rgba(255,255,255,0.06);
-  padding: 20px;
+  padding: 22px;
   border-radius: 18px;
   backdrop-filter: blur(12px);
 }
@@ -27,33 +31,36 @@ body {
 /* TITLE */
 h1 {
   text-align: center;
+  margin-bottom: 20px;
   color: #38bdf8;
-  font-size: 24px;
 }
 
-/* SECTION HEADER */
+/* SECTION CARDS */
+.section {
+  margin-top: 18px;
+  padding: 16px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 14px;
+  box-shadow: 0 0 10px rgba(56,189,248,0.1);
+}
+
 .section-title {
-  margin-top: 20px;
-  padding: 10px;
-  background: linear-gradient(90deg, #0ea5e9, #6366f1);
-  border-radius: 10px;
   font-weight: bold;
-  box-shadow: 0 0 12px rgba(56,189,248,0.3);
+  margin-bottom: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #0ea5e9, #6366f1);
+  box-shadow: 0 0 12px rgba(56,189,248,0.25);
 }
 
-/* GRID FIXED */
+/* RESPONSIVE GRID (FIXED) */
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
 }
 
-@media(max-width:768px){
-  .grid { grid-template-columns: 1fr; }
-}
-
-/* FIELD FIX */
+/* INPUT BLOCK */
 .field {
   display: flex;
   flex-direction: column;
@@ -65,23 +72,23 @@ label {
   opacity: 0.9;
 }
 
-/* INPUT FIX (WHITE TEXT ISSUE SOLVED) */
+/* INPUT FIX */
 input, select {
-  width: 100%;
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.15);
   background: rgba(255,255,255,0.12);
   color: white;
   outline: none;
+  width: 100%;
 }
 
-/* FIX DROPDOWN TEXT */
+/* dropdown readability fix */
 select option {
   color: black;
 }
 
-/* FOCUS */
+/* focus */
 input:focus, select:focus {
   border-color: #38bdf8;
   box-shadow: 0 0 8px #38bdf8;
@@ -92,62 +99,62 @@ button {
   margin-top: 20px;
   width: 100%;
   padding: 14px;
-  background: linear-gradient(90deg, #22c55e, #16a34a);
-  border: none;
   border-radius: 12px;
+  border: none;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  color: white;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
 }
 
-button:hover {
-  transform: scale(1.02);
-}
-
-/* MODAL FIX (RESPONSIVE + SCROLL SAFE) */
+/* MODAL */
 .modal {
   display: none;
   position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  inset: 0;
   background: rgba(0,0,0,0.85);
-  justify-content:center;
-  align-items:center;
-  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
 }
 
 .modal-content {
   background: white;
   color: black;
   width: 100%;
-  max-width: 600px;
+  max-width: 650px;
   max-height: 85vh;
   overflow-y: auto;
-  padding: 20px;
-  border-radius: 15px;
+  border-radius: 14px;
+  padding: 18px;
 }
 
-.close-btn {
+.close {
   float: right;
   cursor: pointer;
   font-size: 18px;
 }
 
-.new-btn {
-  margin-top: 15px;
+.new {
+  margin-top: 14px;
   width: 100%;
   padding: 12px;
-  border: none;
   background: #2563eb;
+  border: none;
   color: white;
   border-radius: 10px;
 }
 
-/* ALLERGY */
-.hidden {
-  display: none;
+/* MOBILE OPTIMIZATION */
+@media (max-width: 600px) {
+  .container {
+    padding: 14px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
 }
 </style>
 </head>
@@ -159,103 +166,147 @@ button:hover {
 
 <form id="form">
 
-<div class="section-title">1. Basic Information</div>
-<div class="grid">
-  <div class="field">
-    <label>Name</label>
-    <input name="name" required>
-  </div>
-  <div class="field">
-    <label>Age</label>
-    <input type="number" name="age">
+<!-- BASIC INFO -->
+<div class="section">
+  <div class="section-title">1. Basic Information</div>
+  <div class="grid">
+    <div class="field">
+      <label>Name</label>
+      <input name="name" required>
+    </div>
+
+    <div class="field">
+      <label>Age</label>
+      <input type="number" name="age">
+    </div>
+
+    <div class="field">
+      <label>Gender</label>
+      <select name="gender">
+        <option>Male</option>
+        <option>Female</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Contact</label>
+      <input name="contact">
+    </div>
   </div>
 </div>
 
-<div class="section-title">2. Body Metrics</div>
-<div class="grid">
-  <div class="field">
-    <label>Height (cm)</label>
-    <input name="height">
-  </div>
-  <div class="field">
-    <label>Weight (kg)</label>
-    <input name="weight">
+<!-- BODY METRICS -->
+<div class="section">
+  <div class="section-title">2. Body Metrics</div>
+  <div class="grid">
+    <div class="field">
+      <label>Height (cm)</label>
+      <input name="height" required>
+    </div>
+
+    <div class="field">
+      <label>Weight (kg)</label>
+      <input name="weight" required>
+    </div>
   </div>
 </div>
 
-<div class="section-title">3. Lifestyle</div>
-<div class="grid">
-  <div class="field">
-    <label>Activity</label>
-    <select name="activity">
-      <option>Sedentary</option>
-      <option>Active</option>
-    </select>
-  </div>
+<!-- LIFESTYLE -->
+<div class="section">
+  <div class="section-title">3. Lifestyle</div>
+  <div class="grid">
+    <div class="field">
+      <label>Activity</label>
+      <select name="activity">
+        <option>Sedentary</option>
+        <option>Low Active</option>
+        <option>Active</option>
+        <option>Very Active</option>
+      </select>
+    </div>
 
-  <div class="field">
-    <label>Water Intake</label>
-    <select name="water">
-      <option value="3">&lt; 4</option>
-      <option value="5">4-6</option>
-      <option value="7">6-8</option>
-    </select>
-  </div>
-</div>
+    <div class="field">
+      <label>Water Intake</label>
+      <select name="water">
+        <option value="3">&lt; 4 glasses</option>
+        <option value="5">4-6 glasses</option>
+        <option value="7">6-8 glasses</option>
+      </select>
+    </div>
 
-<div class="section-title">4. Diet Risk</div>
-<div class="grid">
-  <div class="field">
-    <label>Fast Food</label>
-    <select name="fastfood">
-      <option value="1">Low</option>
-      <option value="3">High</option>
-    </select>
-  </div>
-
-  <div class="field">
-    <label>Packed Food</label>
-    <select name="packed">
-      <option value="1">Low</option>
-      <option value="3">High</option>
-    </select>
+    <div class="field">
+      <label>Meals per Day</label>
+      <select name="meals">
+        <option value="1">1</option>
+        <option value="2">2-3</option>
+        <option value="4">More than 3</option>
+      </select>
+    </div>
   </div>
 </div>
 
-<div class="section-title">5. Medical</div>
-<div class="grid">
-  <div class="field">
-    <label>Food Allergy</label>
-    <select name="allergy" id="allergy">
-      <option>No</option>
-      <option>Yes</option>
-    </select>
-  </div>
+<!-- DIET -->
+<div class="section">
+  <div class="section-title">4. Diet Risk</div>
+  <div class="grid">
+    <div class="field">
+      <label>Fast Food</label>
+      <select name="fastfood">
+        <option value="1">Rare</option>
+        <option value="2">Occasional</option>
+        <option value="3">Frequent</option>
+      </select>
+    </div>
 
-  <div class="field hidden" id="allergyBox">
-    <label>Specify Allergy</label>
-    <input name="allergy_details">
+    <div class="field">
+      <label>Packed Food</label>
+      <select name="packed">
+        <option value="1">Rare</option>
+        <option value="2">Occasional</option>
+        <option value="3">Frequent</option>
+      </select>
+    </div>
   </div>
+</div>
 
-  <div class="field">
-    <label>Substance Exposure</label>
-    <select name="substance">
-      <option>No</option>
-      <option>Yes</option>
-    </select>
+<!-- MEDICAL -->
+<div class="section">
+  <div class="section-title">5. Medical</div>
+  <div class="grid">
+    <div class="field">
+      <label>Food Allergy</label>
+      <select name="allergy" id="allergy">
+        <option>No</option>
+        <option>Yes</option>
+      </select>
+    </div>
+
+    <div class="field" id="allergyBox" style="display:none;">
+      <label>Specify Allergy</label>
+      <input name="allergy_details">
+    </div>
+
+    <div class="field">
+      <label>Substance Exposure</label>
+      <select name="substance">
+        <option>No</option>
+        <option>Yes</option>
+      </select>
+    </div>
   </div>
 </div>
 
 <button type="submit">🚀 Analyze Health</button>
+
 </form>
 </div>
 
 <!-- MODAL -->
 <div class="modal" id="modal">
   <div class="modal-content">
-    <span class="close-btn" onclick="closeModal()">✖</span>
+    <span class="close" onclick="closeModal()">✖</span>
     <div id="modalBody"></div>
-    <button class="new-btn" onclick="resetForm()">New Analysis</button>
+    <button class="new" onclick="resetForm()">New Analysis</button>
   </div>
 </div>
 
@@ -280,7 +331,7 @@ form.addEventListener("submit", async (e) => {
 
     const data = await res.json();
 
-    modalBody.innerHTML = data.html || "No response";
+    modalBody.innerHTML = data.html || "No response received";
     modal.style.display = "flex";
 
   } catch (err) {
@@ -299,7 +350,7 @@ function resetForm(){
 }
 
 allergy.addEventListener("change", () => {
-  allergyBox.classList.toggle("hidden", allergy.value !== "Yes");
+  allergyBox.style.display = allergy.value === "Yes" ? "block" : "none";
 });
 </script>
 
