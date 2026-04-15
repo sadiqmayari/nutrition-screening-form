@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nutrition Screening Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #eef7ff;
+      border-left: 5px solid #007bff;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Nutrition Screening Form</h1>
+
+  <form id="form">
+
+    <h2>1. Basic Information</h2>
+    <label>Name</label>
+    <input name="name" required>
+
+    <label>Age</label>
+    <input type="number" name="age" required>
+
+    <label>Gender</label>
+    <select name="gender">
+      <option>Male</option>
+      <option>Female</option>
+    </select>
+
+    <label>Contact Number</label>
+    <input name="contact">
+
+    <h2>2. Anthropometry</h2>
+    <label>Height (cm)</label>
+    <input type="number" name="height" required>
+
+    <label>Weight (kg)</label>
+    <input type="number" name="weight" required>
+
+    <h2>3. Lifestyle</h2>
+    <label>Physical Activity</label>
+    <select name="activity">
+      <option>Sedentary</option>
+      <option>Low Active</option>
+      <option>Active</option>
+      <option>Very Active</option>
+    </select>
+
+    <label>Water Intake</label>
+    <select name="water">
+      <option value="3">&lt; 4</option>
+      <option value="5">4-6</option>
+      <option value="7">6-8</option>
+    </select>
+
+    <label>Meals per Day</label>
+    <select name="meals">
+      <option value="1">1</option>
+      <option value="2">2-3</option>
+      <option value="4">&gt;3</option>
+    </select>
+
+    <h2>4. Diet Risk</h2>
+    <label>Packed Food</label>
+    <select name="packed">
+      <option value="1">0-1</option>
+      <option value="2">1-2</option>
+      <option value="3">≥3</option>
+    </select>
+
+    <label>Fast Food</label>
+    <select name="fastfood">
+      <option value="1">&lt;1</option>
+      <option value="2">1-2</option>
+      <option value="3">≥3</option>
+    </select>
+
+    <h2>5. Medical</h2>
+    <label>Food Allergies</label>
+    <select name="allergy">
+      <option>No</option>
+      <option>Yes</option>
+    </select>
+
+    <label>Substance Exposure</label>
+    <select name="substance">
+      <option>No</option>
+      <option>Yes</option>
+    </select>
+
+    <h2>6. Clinical Observation</h2>
+
+    <label>Skin</label>
+    <select name="skin">
+      <option>Normal</option>
+      <option>Dry</option>
+      <option>Scaly</option>
+    </select>
+
+    <label>Eyes</label>
+    <select name="eyes">
+      <option>Normal</option>
+      <option>Pale</option>
+      <option>Redness</option>
+      <option>Yellow</option>
+    </select>
+
+    <label>Lips</label>
+    <select name="lips">
+      <option>Normal</option>
+      <option>Dry</option>
+      <option>Dark</option>
+    </select>
+
+    <label>Hair</label>
+    <select name="hair">
+      <option>Normal</option>
+      <option>Dry</option>
+      <option>Brittle</option>
+    </select>
+
+    <label>Scalp</label>
+    <select name="scalp">
+      <option>Normal</option>
+      <option>Dry</option>
+      <option>Scaly</option>
+      <option>Oily</option>
+    </select>
+
+    <label>Nails</label>
+    <select name="nails">
+      <option>Normal</option>
+      <option>Brittle</option>
+      <option>Translucent</option>
+    </select>
+
+    <button type="submit">Evaluate & Save</button>
+
+  </form>
+
+  <div id="result" class="result" style="display:none;"></div>
+
+</div>
+
+<script>
+document.getElementById("form").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const formData = Object.fromEntries(new FormData(this));
+
+  const response = await fetch("YOUR_N8N_WEBHOOK_URL", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(formData)
+  });
+
+  const data = await response.json();
+
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").innerHTML = data.html;
+});
+</script>
+
+</body>
+</html>
