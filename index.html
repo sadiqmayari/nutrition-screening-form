@@ -25,6 +25,7 @@
     h2 {
       border-bottom: 2px solid #eee;
       padding-bottom: 5px;
+      margin-top: 20px;
     }
 
     label {
@@ -62,6 +63,7 @@
       padding: 15px;
       background: #eef7ff;
       border-left: 5px solid #007bff;
+      display: none;
     }
   </style>
 </head>
@@ -135,15 +137,17 @@
     </select>
 
     <h2>5. Medical</h2>
+
     <label>Food Allergies</label>
     <select name="allergy">
       <option>No</option>
       <option>Yes</option>
     </select>
+
     <div id="allergyDetails" style="display:none;">
-  <label>Specify Allergy</label>
-  <input name="allergy_details" placeholder="Enter details">
-</div>
+      <label>Specify Allergy</label>
+      <input name="allergy_details" placeholder="Enter details">
+    </div>
 
     <label>Substance Exposure</label>
     <select name="substance">
@@ -201,8 +205,7 @@
 
   </form>
 
-  <div id="result" class="result" style="display:none;"></div>
-
+  <div id="result" class="result"></div>
 </div>
 
 <script>
@@ -211,22 +214,27 @@ document.getElementById("form").addEventListener("submit", async function(e) {
 
   const formData = Object.fromEntries(new FormData(this));
 
-  const res = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-form", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(formData)
+  try {
+    const res = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-form", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await res.json();
+
+    document.getElementById("result").style.display = "block";
+    document.getElementById("result").innerHTML = data.html;
+
+  } catch (error) {
+    console.error(error);
+    document.getElementById("result").style.display = "block";
+    document.getElementById("result").innerHTML = "<p style='color:red;'>Server connection failed</p>";
+  }
 });
 
-const data = await res.json();
-
-document.getElementById("result").style.display = "block";
-document.getElementById("result").innerHTML = data.html;
-  const data = await response.json();
-
-  document.getElementById("result").style.display = "block";
-  document.getElementById("result").innerHTML = data.html;
-});
-  const allergySelect = document.querySelector('[name="allergy"]');
+// Allergy toggle
+const allergySelect = document.querySelector('[name="allergy"]');
 const allergyDetails = document.getElementById("allergyDetails");
 
 allergySelect.addEventListener("change", function () {
