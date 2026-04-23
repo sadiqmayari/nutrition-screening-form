@@ -2,357 +2,1652 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nutrition Intelligence System</title>
+<title>Nutrition Intelligence System — Clinical</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-* {
-  box-sizing: border-box;
+:root {
+  --bg: #f5f2ee;
+  --surface: #ffffff;
+  --surface2: #faf8f5;
+  --border: #e2ddd6;
+  --accent: #1a5c3a;
+  --accent2: #2d8a5e;
+  --accent-light: #e8f4ef;
+  --warn: #c0392b;
+  --warn-light: #fdf0ef;
+  --ok: #1a5c3a;
+  --moderate: #e67e22;
+  --moderate-light: #fef9f0;
+  --text: #1a1a18;
+  --text2: #5a5750;
+  --text3: #9a948a;
+  --shadow: 0 2px 16px rgba(26,92,58,0.08);
+  --shadow-lg: 0 8px 40px rgba(26,92,58,0.14);
+  --radius: 12px;
+  --radius-sm: 8px;
 }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #0b1220, #1e293b);
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* ── HEADER ── */
+.app-header {
+  background: var(--accent);
   color: white;
-  padding: 16px;
-}
-
-/* MAIN WRAPPER */
-.container {
-  max-width: 1100px;
-  margin: auto;
-  background: rgba(255,255,255,0.06);
-  padding: 22px;
-  border-radius: 18px;
-  backdrop-filter: blur(12px);
-}
-
-/* TITLE */
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #38bdf8;
-}
-
-/* SECTION CARDS */
-.section {
-  margin-top: 18px;
-  padding: 16px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 14px;
-  box-shadow: 0 0 10px rgba(56,189,248,0.1);
-}
-
-.section-title {
-  font-weight: bold;
-  margin-bottom: 12px;
-  padding: 10px;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #0ea5e9, #6366f1);
-  box-shadow: 0 0 12px rgba(56,189,248,0.25);
-}
-
-/* RESPONSIVE GRID (FIXED) */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px;
-}
-
-/* INPUT BLOCK */
-.field {
+  padding: 18px 32px;
   display: flex;
-  flex-direction: column;
-}
-
-label {
-  font-size: 13px;
-  margin-bottom: 6px;
-  opacity: 0.9;
-}
-
-/* INPUT FIX */
-input, select {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.15);
-  background: rgba(255,255,255,0.12);
-  color: white;
-  outline: none;
-  width: 100%;
-}
-
-/* dropdown readability fix */
-select option {
-  color: black;
-}
-
-/* focus */
-input:focus, select:focus {
-  border-color: #38bdf8;
-  box-shadow: 0 0 8px #38bdf8;
-}
-
-/* BUTTON */
-button {
-  margin-top: 20px;
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(90deg, #22c55e, #16a34a);
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* MODAL */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  justify-content: center;
   align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  position: sticky; top: 0; z-index: 100;
+}
+.app-header .logo { font-family: 'DM Serif Display', serif; font-size: 22px; letter-spacing: -0.3px; }
+.app-header .sub { font-size: 12px; opacity: 0.75; margin-top: 2px; }
+.header-badge {
+  margin-left: auto;
+  background: rgba(255,255,255,0.15);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ── LAYOUT ── */
+.page { max-width: 960px; margin: 0 auto; padding: 28px 16px 60px; }
+
+/* ── SECTION CARD ── */
+.section-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.section-header {
+  background: linear-gradient(90deg, var(--accent), #2d6e46);
+  color: white;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-header .num {
+  width: 26px; height: 26px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; flex-shrink: 0;
+}
+.section-header h2 { font-family: 'DM Serif Display', serif; font-size: 16px; font-weight: 400; }
+.section-body { padding: 20px; }
+
+/* ── GRID ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; }
+.col-span-2 { grid-column: span 2; }
+.col-span-3 { grid-column: span 3; }
+.col-span-4 { grid-column: span 4; }
+
+@media (max-width: 680px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; }
+  .col-span-2, .col-span-3, .col-span-4 { grid-column: span 2; }
+}
+@media (max-width: 440px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .col-span-2, .col-span-3, .col-span-4 { grid-column: span 1; }
+}
+
+/* ── FIELD ── */
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: 12px; font-weight: 500; color: var(--text2); letter-spacing: 0.3px; text-transform: uppercase; }
+.field label .req { color: var(--warn); margin-left: 2px; }
+
+input[type=text], input[type=number], input[type=date], input[type=tel],
+select, textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent2);
+  box-shadow: 0 0 0 3px rgba(45,138,94,0.12);
+  background: white;
+}
+select option { color: #111; }
+textarea { resize: vertical; min-height: 70px; }
+
+/* ── READONLY/AUTO FIELDS ── */
+.auto-field {
+  padding: 9px 12px;
+  border: 1.5px solid var(--accent-light);
+  border-radius: var(--radius-sm);
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 14px;
+  min-height: 38px;
+  display: flex; align-items: center;
+}
+
+/* ── FLAG COLORS ── */
+.flag-red { border-color: var(--warn) !important; background: var(--warn-light) !important; }
+.flag-green { border-color: var(--accent) !important; background: var(--accent-light) !important; }
+.flag-orange { border-color: var(--moderate) !important; background: var(--moderate-light) !important; }
+.auto-field.flag-red { color: var(--warn); }
+.auto-field.flag-orange { color: var(--moderate); border-color: var(--moderate); background: var(--moderate-light); }
+
+/* ── CLINICAL EXAM ROW ── */
+.clinical-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.clinical-row:last-child { border-bottom: none; }
+.clinical-label { font-size: 13px; font-weight: 500; color: var(--text2); }
+
+/* ── MULTI-CHECKBOX ROW ── */
+.check-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.check-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  background: var(--surface2);
+  transition: all 0.15s;
+  user-select: none;
+}
+.check-item input { accent-color: var(--accent); }
+.check-item:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+/* ── COLLAPSIBLE ── */
+.collapsible-toggle {
+  width: 100%; padding: 12px 16px;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text2);
+  transition: background 0.2s;
+}
+.collapsible-toggle:hover { background: var(--accent-light); color: var(--accent); }
+.collapsible-toggle .arrow { transition: transform 0.3s; font-size: 12px; }
+.collapsible-toggle.open .arrow { transform: rotate(180deg); }
+.collapsible-body { display: none; padding-top: 14px; }
+.collapsible-body.open { display: block; }
+
+/* ── DIETARY RECALL TABLE ── */
+.recall-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.recall-table th {
+  background: var(--surface2); padding: 8px 10px;
+  border: 1px solid var(--border); text-align: left;
+  font-weight: 600; color: var(--text2); font-size: 12px;
+}
+.recall-table td { border: 1px solid var(--border); padding: 6px; }
+.recall-table td select, .recall-table td input {
+  border: none; background: transparent; padding: 4px 6px;
+  font-size: 13px; width: 100%;
+}
+.recall-table td select:focus, .recall-table td input:focus {
+  background: var(--accent-light); border-radius: 4px; box-shadow: none;
+}
+
+/* ── MEAL PLAN TABLE ── */
+.meal-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.meal-table th {
+  background: var(--accent); color: white;
+  padding: 8px 6px; text-align: center; font-weight: 500;
+}
+.meal-table .row-label {
+  background: var(--surface2); font-weight: 600; color: var(--text2);
+  padding: 8px 10px; text-align: left; white-space: nowrap;
+}
+.meal-table td { border: 1px solid var(--border); }
+.meal-table td input {
+  border: none; background: transparent; padding: 6px 8px;
+  font-size: 12px; width: 100%; min-width: 80px;
+}
+.meal-table td input:focus { background: var(--accent-light); box-shadow: none; border-radius: 0; }
+
+/* ── AUTO-GENERATED COMMENT BOX ── */
+.comment-box {
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-top: 10px;
+}
+.comment-box .comment-header {
+  background: var(--accent); color: white;
+  padding: 10px 16px; font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; gap: 8px;
+}
+.comment-box textarea {
+  border: none; border-radius: 0; background: #f0faf5;
+  min-height: 90px; padding: 12px 14px;
+  font-size: 13px; color: var(--text);
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+.comment-box .comment-note {
+  padding: 6px 14px; background: var(--accent-light);
+  font-size: 11px; color: var(--accent); border-top: 1px solid var(--border);
+}
+
+/* ── LAB REPORTS ── */
+.lab-row {
+  display: grid; grid-template-columns: 150px 120px 80px 1fr;
+  gap: 8px; align-items: center;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+}
+.lab-row:last-child { border-bottom: none; }
+.lab-row .lab-name { font-size: 13px; font-weight: 500; color: var(--text2); }
+
+/* ── BMI DISPLAY ── */
+.bmi-display {
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+.bmi-stat { text-align: center; }
+.bmi-stat .val { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--accent); }
+.bmi-stat .lbl { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
+.bmi-stat .cat { font-size: 12px; font-weight: 600; margin-top: 4px; }
+
+/* ── SUBMIT BAR ── */
+.submit-bar {
+  position: sticky; bottom: 0; background: var(--surface);
+  border-top: 2px solid var(--border);
+  padding: 14px 20px;
+  display: flex; gap: 12px; align-items: center;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+  z-index: 50;
+}
+.btn {
+  padding: 11px 24px; border-radius: var(--radius-sm);
+  border: none; font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: #154d30; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,92,58,0.3); }
+.btn-secondary { background: var(--surface2); color: var(--text2); border: 1.5px solid var(--border); }
+.btn-secondary:hover { background: var(--border); }
+.btn-warn { background: var(--warn); color: white; }
+.submit-bar .spacer { flex: 1; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(10,20,15,0.75); backdrop-filter: blur(4px);
+  z-index: 200; justify-content: center; align-items: center;
   padding: 16px;
 }
-
-.modal-content {
-  background: white;
-  color: black;
-  width: 100%;
-  max-width: 650px;
-  max-height: 85vh;
-  overflow-y: auto;
-  border-radius: 14px;
-  padding: 18px;
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: white; border-radius: var(--radius);
+  width: 100%; max-width: 720px; max-height: 88vh;
+  overflow-y: auto; box-shadow: var(--shadow-lg);
+  animation: slideUp 0.3s ease;
 }
-
-.close {
-  float: right;
-  cursor: pointer;
-  font-size: 18px;
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-header {
+  background: var(--accent); color: white;
+  padding: 18px 24px; display: flex; align-items: center; gap: 12px;
+  position: sticky; top: 0; z-index: 10;
 }
+.modal-header h2 { font-family: 'DM Serif Display', serif; font-size: 20px; font-weight: 400; flex: 1; }
+.modal-close { background: rgba(255,255,255,0.15); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.modal-body { padding: 24px; }
+.report-section { margin-bottom: 20px; }
+.report-section h3 { font-family: 'DM Serif Display', serif; font-size: 16px; border-bottom: 2px solid var(--accent-light); padding-bottom: 6px; margin-bottom: 12px; color: var(--accent); }
+.report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.report-item { display: flex; flex-direction: column; gap: 2px; }
+.report-item .ri-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text3); }
+.report-item .ri-val { font-size: 14px; font-weight: 500; color: var(--text); }
+.modal-actions { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; flex-wrap: wrap; }
 
-.new {
-  margin-top: 14px;
-  width: 100%;
-  padding: 12px;
-  background: #2563eb;
-  border: none;
-  color: white;
-  border-radius: 10px;
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+/* ── HELPER TEXT ── */
+.helper { font-size: 11px; color: var(--text3); margin-top: 3px; }
+.flag-text-red { color: var(--warn); font-size: 11px; font-weight: 600; margin-top: 3px; }
+.flag-text-orange { color: var(--moderate); font-size: 11px; font-weight: 600; margin-top: 3px; }
+
+/* ── PROGRESS BAR ── */
+.form-progress {
+  background: rgba(255,255,255,0.15); height: 3px;
+  border-radius: 2px; margin-top: 12px; overflow: hidden;
 }
+.form-progress-bar { height: 100%; background: #7fd8a8; border-radius: 2px; transition: width 0.4s ease; width: 0%; }
 
-/* MOBILE OPTIMIZATION */
+/* ── NOTIFICATION ── */
+.notif {
+  position: fixed; top: 80px; right: 20px; z-index: 300;
+  background: var(--accent); color: white;
+  padding: 12px 20px; border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  transform: translateX(200%); transition: transform 0.3s ease;
+}
+.notif.show { transform: translateX(0); }
+
+/* ── RESPONSIVE ── */
 @media (max-width: 600px) {
-  .container {
-    padding: 14px;
-  }
+  .app-header { padding: 14px 16px; }
+  .app-header .logo { font-size: 18px; }
+  .section-body { padding: 14px; }
+  .bmi-display { grid-template-columns: 1fr 1fr; }
+  .lab-row { grid-template-columns: 1fr 1fr; }
+  .lab-row .lab-name { grid-column: span 2; }
+  .report-grid { grid-template-columns: 1fr; }
+  .submit-bar { flex-wrap: wrap; }
+  .modal-box { max-height: 95vh; }
+  .clinical-row { grid-template-columns: 100px 1fr; }
+}
 
-  h1 {
-    font-size: 20px;
-  }
+/* print */
+@media print {
+  .app-header, .submit-bar, .modal-overlay { display: none !important; }
+  .section-card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
 }
 </style>
 </head>
-
 <body>
 
-<div class="container">
-<h1>🧠 Nutrition Intelligence System</h1>
+<!-- HEADER -->
+<header class="app-header">
+  <div>
+    <div class="logo">🌿 Nutrition Intelligence System</div>
+    <div class="sub">Clinical Assessment Tool — Nutritionist Use Only</div>
+    <div class="form-progress"><div class="form-progress-bar" id="progressBar"></div></div>
+  </div>
+  <div class="header-badge" id="headerDate"></div>
+</header>
 
-<form id="form">
+<!-- NOTIFICATION -->
+<div class="notif" id="notif"></div>
 
-<!-- BASIC INFO -->
-<div class="section">
-  <div class="section-title">1. Basic Information</div>
-  <div class="grid">
-    <div class="field">
-      <label>Name</label>
-      <input name="name" required>
-    </div>
+<div class="page">
+<form id="mainForm">
 
-    <div class="field">
-      <label>Age</label>
-      <input type="number" name="age">
-    </div>
-
-    <div class="field">
-      <label>Gender</label>
-      <select name="gender">
-        <option>Male</option>
-        <option>Female</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label>Contact</label>
-      <input name="contact">
+<!-- ════════════════════════════════════════
+     SECTION 1: BASIC INFORMATION
+════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="section-header">
+    <div class="num">1</div>
+    <h2>Patient Information</h2>
+  </div>
+  <div class="section-body">
+    <div class="grid-4">
+      <div class="field col-span-2">
+        <label>Patient Name <span class="req">*</span></label>
+        <input type="text" name="name" id="name" placeholder="Full name" required>
+      </div>
+      <div class="field col-span-2">
+        <label>Father's Name</label>
+        <input type="text" name="father_name" placeholder="Father's name">
+      </div>
+      <div class="field">
+        <label>Age <span class="req">*</span></label>
+        <input type="number" name="age" id="age" min="0" max="120" placeholder="Years" required>
+      </div>
+      <div class="field">
+        <label>Gender <span class="req">*</span></label>
+        <select name="gender" id="gender" required>
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Contact No.</label>
+        <input type="tel" name="contact" placeholder="03XX-XXXXXXX">
+      </div>
+      <div class="field">
+        <label>Date of Visit</label>
+        <input type="date" name="visit_date" id="visit_date">
+      </div>
     </div>
   </div>
 </div>
 
-<!-- BODY METRICS -->
-<div class="section">
-  <div class="section-title">2. Body Metrics</div>
-  <div class="grid">
-    <div class="field">
-      <label>Height (cm)</label>
-      <input name="height" required>
+<!-- ════════════════════════════════════════
+     SECTION 2: COMORBIDITIES & HISTORY
+════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="section-header">
+    <div class="num">2</div>
+    <h2>Comorbidities & Family History</h2>
+  </div>
+  <div class="section-body">
+    <div class="field" style="margin-bottom:14px;">
+      <label>Comorbidities (select all that apply)</label>
+      <div class="check-group" id="comorb-group">
+        <label class="check-item"><input type="checkbox" name="comorb" value="DM"> Diabetes (DM)</label>
+        <label class="check-item"><input type="checkbox" name="comorb" value="HTN"> Hypertension (HTN)</label>
+        <label class="check-item"><input type="checkbox" name="comorb" value="CVD"> Cardiovascular Disease</label>
+        <label class="check-item"><input type="checkbox" name="comorb" value="Liver"> Liver Problem</label>
+        <label class="check-item"><input type="checkbox" name="comorb" value="Asthma"> Asthma</label>
+        <label class="check-item"><input type="checkbox" name="comorb" value="COPD"> COPD</label>
+        <label class="check-item"><input type="checkbox" name="comorb" value="Cancer"> Cancer</label>
+      </div>
+      <input type="text" name="comorb_other" placeholder="Other comorbidity..." style="margin-top:8px;">
     </div>
-
-    <div class="field">
-      <label>Weight (kg)</label>
-      <input name="weight" required>
+    <div class="field" style="margin-bottom:14px;">
+      <label>Family History (select all that apply)</label>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="famhist" value="DM"> Diabetes (DM)</label>
+        <label class="check-item"><input type="checkbox" name="famhist" value="HTN"> Hypertension</label>
+        <label class="check-item"><input type="checkbox" name="famhist" value="CVD"> Cardiovascular Disease</label>
+        <label class="check-item"><input type="checkbox" name="famhist" value="Liver"> Liver Problem</label>
+        <label class="check-item"><input type="checkbox" name="famhist" value="Asthma"> Asthma</label>
+        <label class="check-item"><input type="checkbox" name="famhist" value="COPD"> COPD</label>
+        <label class="check-item"><input type="checkbox" name="famhist" value="Cancer"> Cancer</label>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Presenting Complaints</label>
+        <textarea name="presenting_complaints" placeholder="Chief complaints as reported by patient..."></textarea>
+      </div>
+      <div class="field">
+        <label>Diet-Related Complaints</label>
+        <textarea name="diet_complaints" placeholder="Appetite changes, digestive issues, cravings..."></textarea>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- LIFESTYLE -->
-<div class="section">
-  <div class="section-title">3. Lifestyle</div>
-  <div class="grid">
-    <div class="field">
-      <label>Activity</label>
-      <select name="activity">
-        <option>Sedentary</option>
-        <option>Low Active</option>
-        <option>Active</option>
-        <option>Very Active</option>
-      </select>
+<!-- ════════════════════════════════════════
+     SECTION 3: ANTHROPOMETRY
+════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="section-header">
+    <div class="num">3</div>
+    <h2>Anthropometry & Body Metrics</h2>
+  </div>
+  <div class="section-body">
+    <div class="grid-4">
+      <div class="field">
+        <label>Height (cm) <span class="req">*</span></label>
+        <input type="number" name="height" id="height" min="40" max="250" step="0.1" placeholder="e.g. 165" required>
+        <div id="height-flag" class="helper"></div>
+      </div>
+      <div class="field">
+        <label>Weight (kg) <span class="req">*</span></label>
+        <input type="number" name="weight" id="weight" min="3" max="300" step="0.1" placeholder="e.g. 65" required>
+        <div class="helper">lb ÷ 2.2 = kg</div>
+      </div>
+      <div class="field">
+        <label>Weight in lbs</label>
+        <input type="number" name="weight_lbs" id="weight_lbs" step="0.1" placeholder="Auto-converts to kg">
+      </div>
+      <div class="field" id="muac-field" style="display:none;">
+        <label>MUAC (cm) <span style="font-size:10px;color:var(--text3);">&lt;5 yrs</span></label>
+        <input type="number" name="muac" id="muac" step="0.1" min="8" max="35" placeholder="cm">
+        <div id="muac-flag" class="helper"></div>
+      </div>
     </div>
 
-    <div class="field">
-      <label>Water Intake</label>
-      <select name="water">
-        <option value="3">&lt; 4 glasses</option>
-        <option value="5">4-6 glasses</option>
-        <option value="7">6-8 glasses</option>
-      </select>
+    <div class="divider"></div>
+
+    <!-- BMI / IBW Display -->
+    <div class="bmi-display" id="bmiDisplay">
+      <div class="bmi-stat">
+        <div class="val" id="bmi-val">—</div>
+        <div class="lbl">BMI (kg/m²)</div>
+        <div class="cat" id="bmi-cat"></div>
+      </div>
+      <div class="bmi-stat">
+        <div class="val" id="ibw-val">—</div>
+        <div class="lbl">Ideal Body Weight</div>
+        <div class="cat" id="ibw-cat" style="font-size:11px;"></div>
+      </div>
+      <div class="bmi-stat">
+        <div class="val" id="wt-diff">—</div>
+        <div class="lbl">Wt Difference from IBW</div>
+        <div class="cat" id="wt-diff-cat"></div>
+      </div>
     </div>
 
-    <div class="field">
-      <label>Meals per Day</label>
-      <select name="meals">
-        <option value="1">1</option>
-        <option value="2">2-3</option>
-        <option value="4">More than 3</option>
-      </select>
+    <!-- Children Z-Scores (shown when age < 18) -->
+    <div id="zscore-section" style="display:none; margin-top:14px;">
+      <div class="divider"></div>
+      <div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:10px;">📊 WHO Z-Score Classification (Children)</div>
+      <div class="grid-3">
+        <div class="field">
+          <label>BMI-for-Age Z-Score</label>
+          <div class="auto-field" id="z-bfa">—</div>
+        </div>
+        <div class="field">
+          <label>Weight-for-Age Z-Score</label>
+          <div class="auto-field" id="z-wfa">—</div>
+        </div>
+        <div class="field">
+          <label>Height-for-Age Z-Score</label>
+          <div class="auto-field" id="z-hfa">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Weight Changes -->
+    <div class="divider"></div>
+    <div class="grid-3">
+      <div class="field">
+        <label>Recent Weight Change</label>
+        <select name="wt_change">
+          <option value="">Select</option>
+          <option>No change</option>
+          <option>Gained weight</option>
+          <option>Lost weight</option>
+          <option>Fluctuating</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Amount Changed (kg)</label>
+        <input type="number" name="wt_change_amt" step="0.5" placeholder="kg">
+      </div>
+      <div class="field">
+        <label>Over What Period</label>
+        <select name="wt_change_period">
+          <option value="">Select</option>
+          <option>1 week</option>
+          <option>1 month</option>
+          <option>3 months</option>
+          <option>6 months</option>
+          <option>1 year</option>
+        </select>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- DIET -->
-<div class="section">
-  <div class="section-title">4. Diet Risk</div>
-  <div class="grid">
-    <div class="field">
-      <label>Fast Food</label>
-      <select name="fastfood">
-        <option value="1">Rare</option>
-        <option value="2">Occasional</option>
-        <option value="3">Frequent</option>
-      </select>
+<!-- ════════════════════════════════════════
+     SECTION 4: AUTO NUTRITION VALUES
+════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="section-header">
+    <div class="num">4</div>
+    <h2>Calculated Nutritional Requirements</h2>
+  </div>
+  <div class="section-body">
+    <div class="grid-2" style="margin-bottom:14px;">
+      <div class="field">
+        <label>Activity Level <span class="req">*</span></label>
+        <select name="activity" id="activity" required>
+          <option value="">Select</option>
+          <option value="sedentary">Sedentary — Little/no exercise</option>
+          <option value="light">Light — 1–3 times/week</option>
+          <option value="moderate">Moderate — 4–5 times/week</option>
+          <option value="active">Active — Daily / intense 3–4×/week</option>
+          <option value="very_active">Very Active (Athletic) — Intense 6–7×/week</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Pregnancy / Breastfeeding</label>
+        <select name="preg_status" id="preg_status">
+          <option value="none">Not applicable / N/A</option>
+          <option value="pregnant">Pregnant</option>
+          <option value="breastfeeding">Breastfeeding</option>
+        </select>
+      </div>
     </div>
 
-    <div class="field">
-      <label>Packed Food</label>
-      <select name="packed">
-        <option value="1">Rare</option>
-        <option value="2">Occasional</option>
-        <option value="3">Frequent</option>
-      </select>
+    <div class="grid-4">
+      <div class="field">
+        <label>Daily Energy Req. (kcal)</label>
+        <div class="auto-field" id="calc-energy">—</div>
+        <div class="helper">BMR × Activity Factor</div>
+      </div>
+      <div class="field">
+        <label>Protein Req. (g/day)</label>
+        <div class="auto-field" id="calc-protein">—</div>
+        <div class="helper">Based on age & activity</div>
+      </div>
+      <div class="field">
+        <label>Fat Intake (% of cal)</label>
+        <div class="auto-field" id="calc-fat">—</div>
+        <div class="helper">Age-based recommendation</div>
+      </div>
+      <div class="field">
+        <label>Fluid Requirement</label>
+        <div class="auto-field" id="calc-fluid">—</div>
+        <div class="helper">Based on age & weight</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- MEDICAL -->
-<div class="section">
-  <div class="section-title">5. Medical</div>
-  <div class="grid">
-    <div class="field">
-      <label>Food Allergy</label>
-      <select name="allergy" id="allergy">
-        <option>No</option>
-        <option>Yes</option>
-      </select>
+<!-- ════════════════════════════════════════
+     SECTION 5: LIFESTYLE & DIET RISK
+════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="section-header">
+    <div class="num">5</div>
+    <h2>Lifestyle & Dietary Habits</h2>
+  </div>
+  <div class="section-body">
+    <div class="grid-3">
+      <div class="field">
+        <label>Water/Liquids per Day</label>
+        <select name="water" id="water">
+          <option value="8">6–8 glasses ✓</option>
+          <option value="5">4–6 glasses</option>
+          <option value="3">Less than 4 glasses ⚠</option>
+        </select>
+        <div id="water-flag" class="helper"></div>
+      </div>
+      <div class="field">
+        <label>Meals per Day</label>
+        <select name="meals" id="meals">
+          <option value="3">2–3 meals</option>
+          <option value="4">More than 3 meals</option>
+          <option value="1">1 meal only ⚠</option>
+        </select>
+        <div id="meals-flag" class="helper"></div>
+      </div>
+      <div class="field">
+        <label>Packed/Processed Foods/day</label>
+        <select name="packed" id="packed">
+          <option value="1">0–1 items ✓</option>
+          <option value="2">1–2 items</option>
+          <option value="3">3 or more ⚠</option>
+        </select>
+        <div id="packed-flag" class="helper"></div>
+      </div>
+      <div class="field">
+        <label>Fast Food / Dine-out per week</label>
+        <select name="fastfood" id="fastfood">
+          <option value="1">Less than 1 ✓</option>
+          <option value="2">1–2 times</option>
+          <option value="3">3 or more ⚠</option>
+        </select>
+        <div id="fastfood-flag" class="helper"></div>
+      </div>
+      <div class="field">
+        <label>Substance Exposure</label>
+        <select name="substance" id="substance">
+          <option value="No">No</option>
+          <option value="Smoking">Smoking ⚠</option>
+          <option value="Alcohol">Alcohol ⚠</option>
+          <option value="Pan/Gutka">Pan/Gutka/Chalia ⚠</option>
+          <option value="Drugs">Substance/Drug Abuse ⚠</option>
+        </select>
+        <div id="substance-flag" class="helper"></div>
+      </div>
+      <div class="field">
+        <label>Food Allergy / Intolerance</label>
+        <select name="allergy" id="allergy">
+          <option value="No">No</option>
+          <option value="Yes">Yes ⚠</option>
+        </select>
+      </div>
     </div>
-
-    <div class="field" id="allergyBox" style="display:none;">
-      <label>Specify Allergy</label>
-      <input name="allergy_details">
-    </div>
-
-    <div class="field">
-      <label>Substance Exposure</label>
-      <select name="substance">
-        <option>No</option>
-        <option>Yes</option>
-      </select>
+    <div id="allergy-detail-row" style="display:none; margin-top:10px;">
+      <div class="field">
+        <label>Specify Allergy / Intolerance</label>
+        <div class="check-group" style="margin-bottom:8px;">
+          <label class="check-item"><input type="checkbox" name="allergy_type" value="Gluten"> Gluten (wheat, rye, barley, oats)</label>
+          <label class="check-item"><input type="checkbox" name="allergy_type" value="Eggs"> Eggs</label>
+          <label class="check-item"><input type="checkbox" name="allergy_type" value="Fish"> Fish</label>
+          <label class="check-item"><input type="checkbox" name="allergy_type" value="Milk"> Milk/Dairy</label>
+          <label class="check-item"><input type="checkbox" name="allergy_type" value="Peanuts"> Peanuts</label>
+          <label class="check-item"><input type="checkbox" name="allergy_type" value="Tree Nuts"> Tree Nuts</label>
+          <label class="check-item"><input type="checkbox" name="allergy_type" value="Soy"> Soy</label>
+          <label class="check-item"><input type="checkbox" name="allergy_type" value="Shellfish"> Shellfish/Crustaceans</label>
+          <label class="check-item"><input type="checkbox" name="allergy_type" value="Sesame"> Sesame</label>
+        </div>
+        <input type="text" name="allergy_other" placeholder="Other allergy / intolerance...">
+      </div>
     </div>
   </div>
 </div>
 
-<button type="submit">🚀 Analyze Health</button>
+<!-- ════════════════════════════════════════
+     SECTION 6: CLINICAL EXAMINATION
+════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="section-header">
+    <div class="num">6</div>
+    <h2>Clinical Examination</h2>
+  </div>
+  <div class="section-body">
+    <div class="clinical-row">
+      <div class="clinical-label">🔵 Skin</div>
+      <div class="check-group">
+        <label class="check-item"><input type="radio" name="skin" value="Normal" checked> Normal</label>
+        <label class="check-item"><input type="radio" name="skin" value="Dry"> Dry</label>
+        <label class="check-item"><input type="radio" name="skin" value="Scaly"> Scaly</label>
+        <label class="check-item"><input type="radio" name="skin" value="Pale"> Pale</label>
+      </div>
+    </div>
+    <div class="clinical-row">
+      <div class="clinical-label">👁 Eyes</div>
+      <div class="check-group">
+        <label class="check-item"><input type="radio" name="eyes" value="Normal" checked> Normal</label>
+        <label class="check-item"><input type="radio" name="eyes" value="Pale"> Pale</label>
+        <label class="check-item"><input type="radio" name="eyes" value="Redness"> Redness</label>
+        <label class="check-item"><input type="radio" name="eyes" value="Yellow"> Yellow (Icteric)</label>
+      </div>
+    </div>
+    <div class="clinical-row">
+      <div class="clinical-label">💋 Lips</div>
+      <div class="check-group">
+        <label class="check-item"><input type="radio" name="lips" value="Normal" checked> Normal</label>
+        <label class="check-item"><input type="radio" name="lips" value="Dry"> Dry/Cracked</label>
+        <label class="check-item"><input type="radio" name="lips" value="Dark"> Dark Colored</label>
+        <label class="check-item"><input type="radio" name="lips" value="Angular Stomatitis"> Angular Stomatitis</label>
+      </div>
+    </div>
+    <div class="clinical-row">
+      <div class="clinical-label">💅 Nails</div>
+      <div class="check-group">
+        <label class="check-item"><input type="radio" name="nails" value="Normal" checked> Normal</label>
+        <label class="check-item"><input type="radio" name="nails" value="Brittle"> Brittle</label>
+        <label class="check-item"><input type="radio" name="nails" value="Translucent"> Translucent</label>
+        <label class="check-item"><input type="radio" name="nails" value="Koilonychia"> Koilonychia (Spoon)</label>
+      </div>
+    </div>
+    <div class="clinical-row">
+      <div class="clinical-label">💇 Hair</div>
+      <div class="check-group">
+        <label class="check-item"><input type="radio" name="hair" value="Normal" checked> Normal</label>
+        <label class="check-item"><input type="radio" name="hair" value="Dry"> Dry</label>
+        <label class="check-item"><input type="radio" name="hair" value="Brittle"> Brittle</label>
+        <label class="check-item"><input type="radio" name="hair" value="Sparse"> Sparse/Thinning</label>
+      </div>
+    </div>
+    <div class="clinical-row">
+      <div class="clinical-label">🧴 Scalp</div>
+      <div class="check-group">
+        <label class="check-item"><input type="radio" name="scalp" value="Normal" checked> Normal</label>
+        <label class="check-item"><input type="radio" name="scalp" value="Dry"> Dry</label>
+        <label class="check-item"><input type="radio" name="scalp" value="Scaly"> Scaly</label>
+        <label class="check-item"><input type="radio" name="scalp" value="Oily"> Oily</label>
+      </div>
+    </div>
+    <div class="field" style="margin-top:12px;">
+      <label>Other Clinical Observations</label>
+      <textarea name="clinical_other" placeholder="Any other clinical findings..."></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECTION 7: 24-HOUR DIETARY RECALL (COLLAPSIBLE)
+════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="section-header">
+    <div class="num">7</div>
+    <h2>24-Hour Dietary Recall</h2>
+  </div>
+  <div class="section-body">
+    <button type="button" class="collapsible-toggle" id="recall-toggle">
+      <span>📋 Click to expand 24-hour dietary recall form</span>
+      <span class="arrow">▼</span>
+    </button>
+    <div class="collapsible-body" id="recall-body">
+      <table class="recall-table">
+        <thead>
+          <tr>
+            <th>Meal</th>
+            <th>Consumed?</th>
+            <th>Food Items & Details</th>
+            <th>Approx. Quantity</th>
+          </tr>
+        </thead>
+        <tbody id="recall-tbody">
+          <!-- JS generates rows -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECTION 8: BIOCHEMICAL REPORTS
+════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="section-header">
+    <div class="num">8</div>
+    <h2>Biochemical / Laboratory Reports</h2>
+  </div>
+  <div class="section-body">
+    <div id="lab-rows">
+      <!-- JS generates rows -->
+    </div>
+    <div class="field" style="margin-top:12px;">
+      <label>Additional Lab Notes</label>
+      <textarea name="lab_notes" placeholder="Any other test results or clinical notes..."></textarea>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECTION 9: AUTOMATED COMMENT (EDITABLE)
+════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="section-header">
+    <div class="num">9</div>
+    <h2>Automated Nutritionist Comment</h2>
+  </div>
+  <div class="section-body">
+    <p style="font-size:13px;color:var(--text2);margin-bottom:10px;">Based on the patient's BMI/anthropometry, a comment has been auto-generated. <strong>Review and edit before submitting.</strong></p>
+    <div class="comment-box">
+      <div class="comment-header">🧠 Clinical Assessment Comment</div>
+      <textarea name="auto_comment" id="auto_comment" rows="4" placeholder="Enter height, weight, and age to generate comment..."></textarea>
+      <div class="comment-note">✏️ This field is editable — review and modify as clinically appropriate before submission.</div>
+    </div>
+    <div class="divider"></div>
+    <div class="comment-box" style="margin-top:0;">
+      <div class="comment-header">🥗 Dietary Advice</div>
+      <textarea name="dietary_advice" id="dietary_advice" rows="5" placeholder="Dietary advice will auto-populate based on BMI category..."></textarea>
+      <div class="comment-note">✏️ Editable — adjust based on patient-specific clinical findings.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECTION 10: INTERVENTION PLAN
+════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="section-header">
+    <div class="num">10</div>
+    <h2>Dietary Intervention & Supplements</h2>
+  </div>
+  <div class="section-body">
+    <div class="grid-2">
+      <div class="field">
+        <label>Dietary Intervention Plan</label>
+        <textarea name="dietary_intervention" rows="4" placeholder="Specific dietary intervention prescribed..."></textarea>
+      </div>
+      <div class="field">
+        <label>Supplements Recommended</label>
+        <textarea name="supplements" rows="4" placeholder="e.g. Iron 65mg OD, Vitamin D 1000IU, Zinc 20mg..."></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECTION 11: WEEKLY MEAL PLAN
+════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="section-header">
+    <div class="num">11</div>
+    <h2>Weekly Meal Plan (Cyclic Diet)</h2>
+  </div>
+  <div class="section-body">
+    <div style="overflow-x:auto;">
+    <table class="meal-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;padding:8px 10px;">Meal</th>
+          <th>Monday</th><th>Tuesday</th><th>Wednesday</th>
+          <th>Thursday</th><th>Friday</th><th>Saturday</th><th>Sunday</th>
+        </tr>
+      </thead>
+      <tbody id="meal-plan-body">
+        <!-- JS generates rows -->
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECTION 12: FOLLOW-UP
+════════════════════════════════════════ -->
+<div class="section-card">
+  <div class="section-header">
+    <div class="num">12</div>
+    <h2>Follow-Up</h2>
+  </div>
+  <div class="section-body">
+    <div class="grid-3">
+      <div class="field">
+        <label>Follow-Up Required?</label>
+        <select name="followup" id="followup">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </div>
+      <div class="field" id="followup-date-field" style="display:none;">
+        <label>Follow-Up Date</label>
+        <input type="date" name="followup_date">
+      </div>
+      <div class="field col-span-2" id="followup-reason-field" style="display:none;">
+        <label>Reason for Follow-Up</label>
+        <input type="text" name="followup_reason" placeholder="e.g. Monitor weight progress, review labs...">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUBMIT BAR -->
+<div class="submit-bar">
+  <button type="button" class="btn btn-secondary" onclick="clearForm()">🗑 Clear</button>
+  <div class="spacer"></div>
+  <button type="button" class="btn btn-secondary" onclick="saveDraft()">💾 Save Draft</button>
+  <button type="submit" class="btn btn-primary">📊 Generate Report & Submit</button>
+</div>
 
 </form>
 </div>
 
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">✖</span>
-    <div id="modalBody"></div>
-    <button class="new" onclick="resetForm()">New Analysis</button>
+<!-- ════════════════════════════════════════
+     MODAL: REPORT
+════════════════════════════════════════ -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>🌿</div>
+      <h2>Nutrition Assessment Report</h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="reportBody">
+      <!-- Dynamically filled -->
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="printReport()">🖨 Print / Download PDF</button>
+      <button class="btn btn-secondary" onclick="sendWhatsApp()">📲 Send via WhatsApp (n8n)</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+    </div>
   </div>
 </div>
 
 <script>
-const form = document.getElementById("form");
-const modal = document.getElementById("modal");
-const modalBody = document.getElementById("modalBody");
-const allergy = document.getElementById("allergy");
-const allergyBox = document.getElementById("allergyBox");
+// ═══════════════════════════════════════════
+// DATA: BMI COMMENTS (from Adults_Nutrition_Comments.xlsx)
+// ═══════════════════════════════════════════
+const ADULT_BMI_DATA = [
+  {
+    range: "Severely Underweight",
+    min: 0, max: 15.99,
+    comment: "Severely underweight related to energy deficiency, evident by BMI < 16, placing the individual at risk of malnourishment and weakness.",
+    advice: "Initiate a gradual nutritional plan with small, frequent, 4–5 energy-dense meals.\n• Desi options: fortified daliya, kheer, suji halwa (controlled sugar), khichdi with ghee\n• Protein: eggs, chicken, daal, yogurt\n• Energy boosters: peanut butter, nuts, seeds, desi ghee, milk-based shakes\n• Start with soft, easy-to-digest foods → gradually increase portion size\n• Add multivitamin/mineral support\n⚠️ Consult a healthcare professional urgently."
+  },
+  {
+    range: "Underweight",
+    min: 16, max: 18.49,
+    comment: "Moderately underweight related to insufficient energy intake as evidenced by BMI < 18.5.",
+    advice: "Try incorporating gradually energy-dense foods into your meals.\n• Protein: chicken, fish, eggs, lentils\n• Carbohydrates: whole/multigrain flour for paratha/chapati, brown rice, oats\n• Healthy fats: nuts, seeds, ghee, olive/canola/mustard oil\n• Snacks: dried fruits, yogurt, peanut butter\n• Target 3 meals + 2–3 snacks/day"
+  },
+  {
+    range: "Normal Weight",
+    min: 18.5, max: 22.99,
+    comment: "Normal weight status supported by balanced dietary intake as evidenced by BMI between 18.5–22.9.",
+    advice: "For maintaining a healthy weight, focus on a balanced diet:\n• Protein: chicken, fish, eggs, beans, yogurt\n• Whole grains: brown rice, whole-wheat bread, chapati, oats\n• Healthy fats: mustard/canola/olive oil, nuts, seeds\n• Fruits and vegetables at every meal\n• 3 meals/day encouraged. Limit excessive fried foods and sugary drinks\n• Encourage regular physical activity (2–3 hours/week)"
+  },
+  {
+    range: "Overweight (At Risk)",
+    min: 23, max: 24.99,
+    comment: "Pre-obesity is observed as evidenced by BMI in the overweight range (23.0–24.9).",
+    advice: "To support healthy weight management:\n• Practice portion control and balanced meals\n• Fiber-rich foods: vegetables, fruits, whole grains (oats, brown rice, quinoa)\n• Lean proteins: chicken, fish, eggs, legumes\n• Limit sugary snacks, fried foods, and processed items\n• Healthy fats in moderation: nuts, seeds, olive oil\n• Physical activity: brisk walking, cycling, or swimming\n• Stay hydrated — avoid sugary beverages\n• Encourage regular physical activity (3–4 hours/week)"
+  },
+  {
+    range: "Obese Class I",
+    min: 25, max: 29.99,
+    comment: "Obesity class I is observed as evidenced by BMI in the range of 25.0–29.9.",
+    advice: "A structured weight reduction plan is advised:\n• Plate method: ½ vegetables, ¼ protein, ¼ carbohydrates\n• Replace refined carbs (white rice) with whole grains (brown rice)\n• Healthier cooking: grilling or steaming instead of frying\n• Limit ghee and oil to 3–4 teaspoons/day\n• Increase dietary fiber (salads before meals)\n• Mindful eating — avoid late-night meals\n• Regular physical activity: minimum 150 minutes/week"
+  },
+  {
+    range: "Obese Class II",
+    min: 30, max: 999,
+    comment: "Obesity class II is observed as evidenced by BMI ≥ 30.0.",
+    advice: "Intensive, multidisciplinary management is required:\n• Strict calorie-controlled diet with increased fiber and protein\n• Avoid high-fat desi foods: paratha, oil-rich nihari, fried items\n• Avoid sugary desserts: mithai, halwa\n• Structured meal planning and portion control\n• Supervised physical activity as part of daily routine\n• Regular follow-up with healthcare professional and registered dietitian\n• Behavioral therapy may be beneficial for long-term adherence"
+  }
+];
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+// ═══════════════════════════════════════════
+// DATA: WHO Z-SCORE TABLES (simplified cutoffs for 5–19 years)
+// Based on WHO 2007 reference data
+// ═══════════════════════════════════════════
+// BMI-for-age median and SD values (simplified)
+// Classification: < -3SD: SAM, -3 to -2: MAM/wasted, -2 to -1: mild, -1 to 1: normal, 1 to 2: risk overweight, >2: overweight, >3: obese
+function classifyChildBMI(bmi, age, gender) {
+  // WHO 2007 BMI-for-age approximate medians by age (boys/girls combined simplified)
+  const medians = {5:15.3,6:15.3,7:15.4,8:15.5,9:15.8,10:16.1,11:16.5,12:17.0,13:17.5,14:18.0,15:18.5,16:19.0,17:19.5,18:20.0,19:20.5};
+  const sds = {5:1.5,6:1.5,7:1.6,8:1.7,9:1.8,10:2.0,11:2.2,12:2.4,13:2.6,14:2.7,15:2.8,16:2.9,17:3.0,18:3.0,19:3.0};
+  const ageInt = Math.min(19, Math.max(5, Math.floor(age)));
+  const med = medians[ageInt] || 17;
+  const sd = sds[ageInt] || 2;
+  const z = (bmi - med) / sd;
+  const zStr = z.toFixed(1);
+  if (z < -3) return { z: zStr, label: "Severely Wasted (SAM)", level: "red" };
+  if (z < -2) return { z: zStr, label: "Wasted (MAM)", level: "red" };
+  if (z < -1) return { z: zStr, label: "Mildly Thin", level: "orange" };
+  if (z <= 1)  return { z: zStr, label: "Normal", level: "green" };
+  if (z <= 2)  return { z: zStr, label: "Risk of Overweight", level: "orange" };
+  if (z <= 3)  return { z: zStr, label: "Overweight", level: "orange" };
+  return { z: zStr, label: "Obese", level: "red" };
+}
 
-  const formData = Object.fromEntries(new FormData(form));
+function classifyChildWeight(weight, age, gender) {
+  // WHO weight-for-age (5–10 years) approximate medians
+  const boyMed = {5:18.3,6:20.7,7:23.1,8:25.7,9:28.6,10:31.9};
+  const girlMed = {5:17.7,6:20.2,7:22.9,8:25.8,9:29.0,10:32.5};
+  const med = (gender==='Female' ? girlMed : boyMed);
+  const ageInt = Math.min(10, Math.max(5, Math.floor(age)));
+  if (ageInt > 10) return { z: "N/A", label: "Use BMI-for-Age (>10yr)", level: "green" };
+  const m = med[ageInt] || 25;
+  const sd = m * 0.15;
+  const z = (weight - m) / sd;
+  const zStr = z.toFixed(1);
+  if (z < -3) return { z: zStr, label: "Severely Underweight", level: "red" };
+  if (z < -2) return { z: zStr, label: "Underweight", level: "red" };
+  if (z < -1) return { z: zStr, label: "Mildly Underweight", level: "orange" };
+  if (z <= 1)  return { z: zStr, label: "Normal", level: "green" };
+  if (z <= 2)  return { z: zStr, label: "Possible Overweight", level: "orange" };
+  return { z: zStr, label: "Overweight", level: "red" };
+}
 
-  try {
-    const res = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-form", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(formData)
-    });
+function classifyChildHeight(height, age, gender) {
+  // WHO height-for-age (5–19 years) approximate medians (cm)
+  const boyMed = {5:110,6:116,7:122,8:128,9:133,10:138,11:143,12:149,13:156,14:163,15:169,16:173,17:175,18:176,19:177};
+  const girlMed = {5:109,6:115,7:121,8:127,9:132,10:138,11:144,12:149,13:153,14:156,15:158,16:159,17:160,18:160,19:161};
+  const med = (gender==='Female' ? girlMed : boyMed);
+  const ageInt = Math.min(19, Math.max(5, Math.floor(age)));
+  const m = med[ageInt] || 150;
+  const sd = 6;
+  const z = (height - m) / sd;
+  const zStr = z.toFixed(1);
+  if (z < -3) return { z: zStr, label: "Severely Stunted", level: "red" };
+  if (z < -2) return { z: zStr, label: "Stunted", level: "red" };
+  if (z < -1) return { z: zStr, label: "Mildly Short", level: "orange" };
+  if (z <= 1)  return { z: zStr, label: "Normal Height", level: "green" };
+  if (z <= 2)  return { z: zStr, label: "Tall", level: "green" };
+  return { z: zStr, label: "Very Tall", level: "green" };
+}
 
-    const data = await res.json();
+// MUAC classification (< 5 years)
+function muacClassify(muac, age) {
+  if (age >= 5) return null;
+  if (muac < 11.5) return { label: "Severe Acute Malnutrition (SAM)", level: "red" };
+  if (muac < 12.5) return { label: "Moderate Acute Malnutrition (MAM)", level: "red" };
+  if (muac < 13.5) return { label: "At Risk of MAM", level: "orange" };
+  return { label: "Normal", level: "green" };
+}
 
-    modalBody.innerHTML = data.html || "No response received";
-    modal.style.display = "flex";
+// ═══════════════════════════════════════════
+// CALCULATIONS
+// ═══════════════════════════════════════════
+function calcAll() {
+  const age = parseFloat(document.getElementById('age').value) || 0;
+  const gender = document.getElementById('gender').value;
+  const height = parseFloat(document.getElementById('height').value) || 0;
+  const weight = parseFloat(document.getElementById('weight').value) || 0;
+  const activity = document.getElementById('activity').value;
 
-  } catch (err) {
-    modalBody.innerHTML = "Server error";
-    modal.style.display = "flex";
+  // MUAC field visibility
+  document.getElementById('muac-field').style.display = (age > 0 && age < 5) ? 'flex' : 'none';
+
+  if (!age || !height || !weight) { clearCalcs(); return; }
+
+  const heightM = height / 100;
+  const bmi = weight / (heightM * heightM);
+
+  // ── BMI DISPLAY ──
+  const bmiVal = document.getElementById('bmi-val');
+  const bmiCat = document.getElementById('bmi-cat');
+  bmiVal.textContent = bmi.toFixed(1);
+
+  let bmiClass = '', bmiLabel = '', bmiColor = '';
+  if (age >= 18) {
+    // Asian adult BMI cutoffs
+    if (bmi < 16) { bmiLabel = "Severely Underweight"; bmiColor = "var(--warn)"; }
+    else if (bmi < 18.5) { bmiLabel = "Underweight"; bmiColor = "var(--warn)"; }
+    else if (bmi < 23) { bmiLabel = "Normal Weight ✓"; bmiColor = "var(--ok)"; }
+    else if (bmi < 25) { bmiLabel = "Overweight (At Risk)"; bmiColor = "var(--moderate)"; }
+    else if (bmi < 30) { bmiLabel = "Obese Class I"; bmiColor = "var(--warn)"; }
+    else { bmiLabel = "Obese Class II"; bmiColor = "var(--warn)"; }
+    document.getElementById('zscore-section').style.display = 'none';
+  } else {
+    bmiLabel = `BMI ${bmi.toFixed(1)}`;
+    bmiColor = "var(--accent2)";
+    // Show z-scores for children 5–19
+    if (age >= 5 && gender) {
+      document.getElementById('zscore-section').style.display = 'block';
+      const zBFA = classifyChildBMI(bmi, age, gender);
+      const zWFA = classifyChildWeight(weight, age, gender);
+      const zHFA = classifyChildHeight(height, age, gender);
+      setZScore('z-bfa', zBFA);
+      setZScore('z-wfa', zWFA);
+      setZScore('z-hfa', zHFA);
+    } else {
+      document.getElementById('zscore-section').style.display = 'none';
+    }
+  }
+  bmiCat.textContent = bmiLabel;
+  bmiCat.style.color = bmiColor;
+
+  // ── IBW ──
+  const ibwEl = document.getElementById('ibw-val');
+  const ibwCat = document.getElementById('ibw-cat');
+  const wtDiff = document.getElementById('wt-diff');
+  const wtDiffCat = document.getElementById('wt-diff-cat');
+
+  let ibw = 0;
+  if (age >= 18) {
+    // Devine formula (adult)
+    const heightInches = height / 2.54;
+    const inchesOver5ft = Math.max(0, heightInches - 60);
+    if (gender === 'Male') ibw = 50 + 2.3 * inchesOver5ft;
+    else ibw = 45.5 + 2.3 * inchesOver5ft;
+  } else {
+    // Children: IBW = BMI at 50th percentile × height²
+    const bmi50th = {5:15.3,6:15.3,7:15.5,8:15.7,9:15.9,10:16.2,11:16.5,12:17.0,13:17.5,14:18.0,15:18.5,16:19.0,17:19.5,18:20.0,19:20.5};
+    const ageInt = Math.min(19, Math.max(5, Math.floor(age)));
+    const b50 = bmi50th[ageInt] || 17;
+    ibw = b50 * heightM * heightM;
+  }
+  ibwEl.textContent = ibw > 0 ? ibw.toFixed(1) + " kg" : "—";
+  const diff = weight - ibw;
+  wtDiff.textContent = (diff >= 0 ? "+" : "") + diff.toFixed(1) + " kg";
+  wtDiff.style.color = Math.abs(diff) <= 5 ? "var(--ok)" : Math.abs(diff) <= 10 ? "var(--moderate)" : "var(--warn)";
+  wtDiffCat.textContent = Math.abs(diff) <= 5 ? "Within range" : diff > 0 ? "Above IBW" : "Below IBW";
+
+  // ── ENERGY ──
+  let bmr = 0;
+  if (gender === 'Male') bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+  else bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+  const actFactors = { sedentary: 1.2, light: 1.375, moderate: 1.55, active: 1.725, very_active: 1.9 };
+  const af = actFactors[activity] || 1.2;
+  const energy = Math.round(bmr * af);
+  setAutoField('calc-energy', energy > 0 ? energy + " kcal/day" : "—");
+
+  // ── PROTEIN ──
+  let proteinGperKg = 0.8;
+  if (age <= 3) proteinGperKg = 0.87;
+  else if (age <= 8) proteinGperKg = 0.76;
+  else if (age <= 13) proteinGperKg = 0.76;
+  else if (age <= 18) proteinGperKg = gender === 'Male' ? 0.73 : 0.71;
+  else if (age > 65) proteinGperKg = 1.1;
+  else if (activity === 'active' || activity === 'very_active') proteinGperKg = 1.4;
+  const pregStatus = document.getElementById('preg_status').value;
+  if (pregStatus === 'pregnant' || pregStatus === 'breastfeeding') proteinGperKg = 1.2;
+  const protein = Math.round(proteinGperKg * weight);
+  setAutoField('calc-protein', protein > 0 ? `${protein} g/day (${proteinGperKg} g/kg)` : "—");
+
+  // ── FAT ──
+  let fatPct = age <= 3 ? "30–40%" : age <= 18 ? "25–35%" : "20–35%";
+  setAutoField('calc-fat', fatPct);
+
+  // ── FLUID ──
+  let fluid = "";
+  if (weight <= 10) fluid = Math.round(weight * 100) + " ml/day";
+  else if (weight <= 20) fluid = Math.round(1000 + (weight - 10) * 50) + " ml/day";
+  else fluid = Math.round(1500 + (weight - 20) * 20) + " ml/day";
+  if (age >= 19) {
+    const baseFluid = gender === 'Male' ? 3700 : 2700;
+    fluid = (baseFluid / 1000).toFixed(1) + " L/day";
+  }
+  setAutoField('calc-fluid', fluid || "—");
+
+  // ── AUTO COMMENT ──
+  updateAutoComment(bmi, age, gender);
+}
+
+function setZScore(id, data) {
+  const el = document.getElementById(id);
+  el.textContent = `Z: ${data.z} — ${data.label}`;
+  el.className = 'auto-field';
+  if (data.level === 'red') el.classList.add('flag-red');
+  else if (data.level === 'orange') el.classList.add('flag-orange');
+  else el.classList.add('flag-green');
+}
+
+function setAutoField(id, val) {
+  document.getElementById(id).textContent = val;
+}
+
+function clearCalcs() {
+  ['calc-energy','calc-protein','calc-fat','calc-fluid','bmi-val','ibw-val','wt-diff'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '—';
+  });
+  document.getElementById('bmi-cat').textContent = '';
+  document.getElementById('zscore-section').style.display = 'none';
+}
+
+function updateAutoComment(bmi, age, gender) {
+  if (!bmi || !age) return;
+  const commentEl = document.getElementById('auto_comment');
+  const adviceEl = document.getElementById('dietary_advice');
+
+  if (age >= 18) {
+    const data = ADULT_BMI_DATA.find(d => bmi >= d.min && bmi < d.max + 0.01);
+    if (data) {
+      commentEl.value = data.comment;
+      adviceEl.value = data.advice;
+    }
+  } else if (age >= 5) {
+    const heightM = (parseFloat(document.getElementById('height').value) || 0) / 100;
+    const weight = parseFloat(document.getElementById('weight').value) || 0;
+    const zBFA = classifyChildBMI(bmi, age, gender);
+    commentEl.value = `Patient aged ${Math.floor(age)} years (${gender}). WHO BMI-for-age classification: ${zBFA.label} (Z-score: ${zBFA.z}). Nutritional assessment indicates ${zBFA.level === 'green' ? 'adequate' : 'suboptimal'} nutritional status.`;
+    adviceEl.value = zBFA.level === 'green'
+      ? "Continue balanced diet appropriate for age. Encourage variety of food groups, regular meals, and physical activity."
+      : zBFA.label.toLowerCase().includes('wast') || zBFA.label.toLowerCase().includes('thin')
+        ? "Child requires nutritional rehabilitation. Increase energy-dense foods: daal, rice, roti with ghee, eggs, dairy. Frequent small meals (5–6/day). Consider micronutrient supplementation. Refer to pediatric nutritionist if SAM."
+        : "Child is at risk of overweight. Encourage physical activity, reduce processed foods, increase vegetables and fruits. Monitor BMI-for-age monthly.";
+  } else {
+    commentEl.value = `Patient aged ${Math.floor(age)} years. MUAC-based assessment required for children under 5 years.`;
+    adviceEl.value = "Follow age-appropriate feeding guidelines. Ensure adequate energy, protein, and micronutrient intake for growth and development.";
+  }
+}
+
+// ═══════════════════════════════════════════
+// FLAGS
+// ═══════════════════════════════════════════
+function updateFlags() {
+  // Water
+  const water = document.getElementById('water').value;
+  const waterFlag = document.getElementById('water-flag');
+  if (water === '3') { waterFlag.textContent = '⚠️ Low hydration — recommend increasing to 6–8 glasses/day'; waterFlag.className = 'flag-text-red'; }
+  else { waterFlag.textContent = ''; waterFlag.className = 'helper'; }
+
+  // Meals
+  const meals = document.getElementById('meals').value;
+  const mealsFlag = document.getElementById('meals-flag');
+  if (meals === '1') { mealsFlag.textContent = '⚠️ Irregular meal pattern — recommend 3 balanced meals/day'; mealsFlag.className = 'flag-text-red'; }
+  else { mealsFlag.textContent = ''; mealsFlag.className = 'helper'; }
+
+  // Packed food
+  const packed = document.getElementById('packed').value;
+  const packedFlag = document.getElementById('packed-flag');
+  if (packed === '3') { packedFlag.textContent = '⚠️ High processed food intake — recommend reducing to max 1–2/day'; packedFlag.className = 'flag-text-red'; }
+  else if (packed === '2') { packedFlag.textContent = '⚡ Moderate — advise reduction'; packedFlag.className = 'flag-text-orange'; }
+  else { packedFlag.textContent = ''; packedFlag.className = 'helper'; }
+
+  // Fast food
+  const ff = document.getElementById('fastfood').value;
+  const ffFlag = document.getElementById('fastfood-flag');
+  if (ff === '3') { ffFlag.textContent = '⚠️ Frequent fast food intake — high dietary risk'; ffFlag.className = 'flag-text-red'; }
+  else if (ff === '2') { ffFlag.textContent = '⚡ Moderate fast food — advise reduction'; ffFlag.className = 'flag-text-orange'; }
+  else { ffFlag.textContent = ''; ffFlag.className = 'helper'; }
+
+  // Substance
+  const sub = document.getElementById('substance').value;
+  const subFlag = document.getElementById('substance-flag');
+  if (sub !== 'No') { subFlag.textContent = `⚠️ ${sub} — substance exposure is a nutritional risk factor`; subFlag.className = 'flag-text-red'; }
+  else { subFlag.textContent = ''; subFlag.className = 'helper'; }
+
+  // Allergy
+  const allergy = document.getElementById('allergy').value;
+  document.getElementById('allergy-detail-row').style.display = allergy === 'Yes' ? 'block' : 'none';
+}
+
+// MUAC flag
+document.addEventListener('input', function(e) {
+  if (e.target.id === 'muac') {
+    const age = parseFloat(document.getElementById('age').value) || 0;
+    const muacVal = parseFloat(e.target.value) || 0;
+    const flag = document.getElementById('muac-flag');
+    const cls = muacClassify(muacVal, age);
+    if (cls) {
+      flag.textContent = (cls.level === 'red' ? '⚠️ ' : '⚡ ') + cls.label;
+      flag.className = cls.level === 'red' ? 'flag-text-red' : 'flag-text-orange';
+    }
   }
 });
 
-function closeModal(){
-  modal.style.display = "none";
+// Weight lb → kg
+document.getElementById('weight_lbs').addEventListener('input', function() {
+  const lbs = parseFloat(this.value);
+  if (lbs > 0) {
+    document.getElementById('weight').value = (lbs / 2.2).toFixed(1);
+    calcAll();
+  }
+});
+
+// Follow-up toggle
+document.getElementById('followup').addEventListener('change', function() {
+  const show = this.value === 'Yes';
+  document.getElementById('followup-date-field').style.display = show ? 'flex' : 'none';
+  document.getElementById('followup-reason-field').style.display = show ? 'flex' : 'none';
+});
+
+// ═══════════════════════════════════════════
+// DIETARY RECALL TABLE
+// ═══════════════════════════════════════════
+const meals_list = ["Breakfast", "Mid-Morning Snack", "Lunch", "Evening Snack", "Dinner", "Bedtime Snack"];
+function buildRecallTable() {
+  const tbody = document.getElementById('recall-tbody');
+  tbody.innerHTML = '';
+  meals_list.forEach(meal => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="padding:6px 10px;font-weight:500;white-space:nowrap;color:var(--text2);">${meal}</td>
+      <td><select name="recall_${meal.replace(/ /g,'_')}_consumed" style="min-width:70px">
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+        <option value="Partial">Partial</option>
+      </select></td>
+      <td><input type="text" name="recall_${meal.replace(/ /g,'_')}_items" placeholder="Food items..."></td>
+      <td><input type="text" name="recall_${meal.replace(/ /g,'_')}_qty" placeholder="Amount..."></td>
+    `;
+    tbody.appendChild(tr);
+  });
 }
 
-function resetForm(){
-  form.reset();
-  modal.style.display = "none";
+// ═══════════════════════════════════════════
+// MEAL PLAN TABLE
+// ═══════════════════════════════════════════
+const meal_rows = ["Breakfast", "Mid-Morning", "Lunch", "Evening Snack", "Dinner"];
+const days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+function buildMealPlan() {
+  const tbody = document.getElementById('meal-plan-body');
+  tbody.innerHTML = '';
+  meal_rows.forEach(meal => {
+    const tr = document.createElement('tr');
+    let cells = `<td class="row-label">${meal}</td>`;
+    days.forEach(day => {
+      cells += `<td><input type="text" name="meal_${meal.replace(/ /g,'_')}_${day}" placeholder="..."></td>`;
+    });
+    tr.innerHTML = cells;
+    tbody.appendChild(tr);
+  });
 }
 
-allergy.addEventListener("change", () => {
-  allergyBox.style.display = allergy.value === "Yes" ? "block" : "none";
+// ═══════════════════════════════════════════
+// LAB ROWS
+// ═══════════════════════════════════════════
+const labTests = [
+  "Hemoglobin (Hb)", "Serum Ferritin", "Serum Iron", "Serum Albumin",
+  "Blood Glucose (FBS)", "HbA1c", "Cholesterol (Total)", "LDL", "HDL", "Triglycerides",
+  "Serum Vitamin D", "Serum B12", "Serum Calcium", "Serum Zinc",
+  "Creatinine", "ALT/SGPT", "TSH"
+];
+function buildLabRows() {
+  const container = document.getElementById('lab-rows');
+  container.innerHTML = '';
+  labTests.forEach(test => {
+    const safe = test.replace(/[^a-zA-Z0-9]/g, '_');
+    const row = document.createElement('div');
+    row.className = 'lab-row';
+    row.innerHTML = `
+      <div class="lab-name">${test}</div>
+      <input type="text" name="lab_${safe}_val" placeholder="Value">
+      <input type="text" name="lab_${safe}_unit" placeholder="Unit">
+      <input type="text" name="lab_${safe}_note" placeholder="Normal / High / Low / —">
+    `;
+    container.appendChild(row);
+  });
+}
+
+// ═══════════════════════════════════════════
+// COLLAPSIBLE
+// ═══════════════════════════════════════════
+document.getElementById('recall-toggle').addEventListener('click', function() {
+  this.classList.toggle('open');
+  document.getElementById('recall-body').classList.toggle('open');
+});
+
+// ═══════════════════════════════════════════
+// FORM SUBMIT
+// ═══════════════════════════════════════════
+document.getElementById('mainForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const data = Object.fromEntries(formData.entries());
+
+  // Multi-values
+  data.comorbidities = formData.getAll('comorb').join(', ');
+  data.family_history = formData.getAll('famhist').join(', ');
+  data.allergy_types = formData.getAll('allergy_type').join(', ');
+
+  // Computed values
+  const age = parseFloat(data.age) || 0;
+  const height = parseFloat(data.height) || 0;
+  const weight = parseFloat(data.weight) || 0;
+  const heightM = height / 100;
+  const bmi = heightM > 0 ? (weight / (heightM * heightM)).toFixed(1) : 0;
+  data.bmi = bmi;
+  data.calc_energy = document.getElementById('calc-energy').textContent;
+  data.calc_protein = document.getElementById('calc-protein').textContent;
+  data.calc_fat = document.getElementById('calc-fat').textContent;
+  data.calc_fluid = document.getElementById('calc-fluid').textContent;
+  data.bmi_category = document.getElementById('bmi-cat').textContent;
+
+  // Show report modal
+  buildReport(data);
+  document.getElementById('reportModal').classList.add('open');
+
+  // Send to n8n (non-blocking)
+  sendToN8n(data);
+});
+
+// ═══════════════════════════════════════════
+// REPORT BUILDER
+// ═══════════════════════════════════════════
+function buildReport(data) {
+  const body = document.getElementById('reportBody');
+  const d = (v) => v || '—';
+  body.innerHTML = `
+    <div class="report-section">
+      <h3>👤 Patient Information</h3>
+      <div class="report-grid">
+        <div class="report-item"><span class="ri-label">Name</span><span class="ri-val">${d(data.name)}</span></div>
+        <div class="report-item"><span class="ri-label">Father's Name</span><span class="ri-val">${d(data.father_name)}</span></div>
+        <div class="report-item"><span class="ri-label">Age / Gender</span><span class="ri-val">${d(data.age)} yrs / ${d(data.gender)}</span></div>
+        <div class="report-item"><span class="ri-label">Contact</span><span class="ri-val">${d(data.contact)}</span></div>
+        <div class="report-item"><span class="ri-label">Date of Visit</span><span class="ri-val">${d(data.visit_date)}</span></div>
+        <div class="report-item"><span class="ri-label">Comorbidities</span><span class="ri-val">${d(data.comorbidities)}</span></div>
+        <div class="report-item"><span class="ri-label">Family History</span><span class="ri-val">${d(data.family_history)}</span></div>
+      </div>
+    </div>
+    <div class="report-section">
+      <h3>⚖️ Anthropometry</h3>
+      <div class="report-grid">
+        <div class="report-item"><span class="ri-label">Height</span><span class="ri-val">${d(data.height)} cm</span></div>
+        <div class="report-item"><span class="ri-label">Weight</span><span class="ri-val">${d(data.weight)} kg</span></div>
+        <div class="report-item"><span class="ri-label">BMI</span><span class="ri-val" style="font-weight:700;font-size:16px;">${d(data.bmi)} kg/m²</span></div>
+        <div class="report-item"><span class="ri-label">BMI Category</span><span class="ri-val">${d(data.bmi_category)}</span></div>
+        ${data.muac ? `<div class="report-item"><span class="ri-label">MUAC</span><span class="ri-val">${data.muac} cm</span></div>` : ''}
+      </div>
+    </div>
+    <div class="report-section">
+      <h3>🔬 Calculated Requirements</h3>
+      <div class="report-grid">
+        <div class="report-item"><span class="ri-label">Daily Energy</span><span class="ri-val">${d(data.calc_energy)}</span></div>
+        <div class="report-item"><span class="ri-label">Protein</span><span class="ri-val">${d(data.calc_protein)}</span></div>
+        <div class="report-item"><span class="ri-label">Fat Intake</span><span class="ri-val">${d(data.calc_fat)}</span></div>
+        <div class="report-item"><span class="ri-label">Fluid Requirement</span><span class="ri-val">${d(data.calc_fluid)}</span></div>
+      </div>
+    </div>
+    <div class="report-section">
+      <h3>🧠 Clinical Assessment</h3>
+      <div style="background:var(--accent-light);border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:13px;line-height:1.6;margin-bottom:10px;">
+        ${d(data.auto_comment)}
+      </div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px;">🥗 Dietary Advice</div>
+      <div style="background:var(--surface2);border:1px solid var(--border);padding:12px 14px;border-radius:var(--radius-sm);font-size:13px;line-height:1.7;white-space:pre-line;">
+        ${d(data.dietary_advice)}
+      </div>
+    </div>
+    ${data.presenting_complaints ? `<div class="report-section"><h3>📋 Complaints</h3><p style="font-size:13px;">${data.presenting_complaints}</p></div>` : ''}
+    ${data.supplements ? `<div class="report-section"><h3>💊 Supplements</h3><p style="font-size:13px;">${data.supplements}</p></div>` : ''}
+    ${data.dietary_intervention ? `<div class="report-section"><h3>🥦 Dietary Intervention</h3><p style="font-size:13px;">${data.dietary_intervention}</p></div>` : ''}
+    ${data.followup === 'Yes' ? `<div class="report-section"><h3>📅 Follow-Up</h3><p style="font-size:13px;">Date: ${d(data.followup_date)} — ${d(data.followup_reason)}</p></div>` : ''}
+    <div style="margin-top:20px;padding-top:12px;border-top:1px dashed var(--border);font-size:11px;color:var(--text3);text-align:center;">
+      Generated by Nutrition Intelligence System — ${new Date().toLocaleDateString('en-PK', {year:'numeric',month:'long',day:'numeric'})}
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════
+// N8N INTEGRATION
+// ═══════════════════════════════════════════
+async function sendToN8n(data) {
+  try {
+    const res = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-form", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+    showNotif("✅ Data saved to Google Sheets");
+  } catch(err) {
+    showNotif("⚠️ Could not sync to Sheets — data shown locally");
+  }
+}
+
+async function sendWhatsApp() {
+  try {
+    const formData = new FormData(document.getElementById('mainForm'));
+    const data = Object.fromEntries(formData.entries());
+    data.action = "whatsapp";
+    const res = await fetch("https://n8n.srv1519870.hstgr.cloud/webhook/nutrition-whatsapp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+    showNotif("📲 WhatsApp message sent via n8n!");
+  } catch(err) {
+    showNotif("⚠️ WhatsApp send failed — check n8n webhook");
+  }
+}
+
+function printReport() {
+  const reportContent = document.getElementById('reportBody').innerHTML;
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <!DOCTYPE html><html><head>
+    <title>Nutrition Report — ${document.getElementById('name').value}</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+      body { font-family:'DM Sans',sans-serif; max-width:700px; margin:30px auto; color:#111; font-size:14px; }
+      h1 { font-family:'DM Serif Display',serif; color:#1a5c3a; font-size:24px; }
+      h3 { font-family:'DM Serif Display',serif; color:#1a5c3a; font-size:16px; border-bottom:1px solid #e0e0e0; padding-bottom:4px; margin-top:20px; }
+      .report-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+      .ri-label { font-size:11px; text-transform:uppercase; color:#888; display:block; }
+      .ri-val { font-size:14px; font-weight:500; }
+      @media print { @page { margin:15mm; } }
+    </style>
+    </head><body>
+    <h1>🌿 Nutrition Assessment Report</h1>
+    ${reportContent}
+    </body></html>
+  `);
+  win.document.close();
+  setTimeout(() => win.print(), 600);
+}
+
+function closeModal() {
+  document.getElementById('reportModal').classList.remove('open');
+}
+
+// ═══════════════════════════════════════════
+// UTILITY
+// ═══════════════════════════════════════════
+function showNotif(msg) {
+  const n = document.getElementById('notif');
+  n.textContent = msg;
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 3000);
+}
+
+function clearForm() {
+  if (confirm("Clear all form data?")) {
+    document.getElementById('mainForm').reset();
+    clearCalcs();
+    document.getElementById('auto_comment').value = '';
+    document.getElementById('dietary_advice').value = '';
+  }
+}
+
+function saveDraft() {
+  const formData = new FormData(document.getElementById('mainForm'));
+  const data = Object.fromEntries(formData.entries());
+  localStorage.setItem('nis_draft', JSON.stringify(data));
+  showNotif("💾 Draft saved locally");
+}
+
+function loadDraft() {
+  try {
+    const saved = localStorage.getItem('nis_draft');
+    if (saved) {
+      const data = JSON.parse(saved);
+      Object.entries(data).forEach(([k, v]) => {
+        const el = document.querySelector(`[name="${k}"]`);
+        if (el) el.value = v;
+      });
+      calcAll();
+      showNotif("📂 Draft loaded");
+    }
+  } catch(e) {}
+}
+
+// Progress bar
+function updateProgress() {
+  const required = document.querySelectorAll('[required]');
+  const filled = Array.from(required).filter(el => el.value.trim()).length;
+  const pct = Math.round((filled / required.length) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+// ═══════════════════════════════════════════
+// EVENT LISTENERS
+// ═══════════════════════════════════════════
+['age','height','weight','activity','gender'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => { calcAll(); updateProgress(); });
+});
+document.getElementById('preg_status').addEventListener('change', calcAll);
+['water','meals','packed','fastfood','substance','allergy'].forEach(id => {
+  document.getElementById(id).addEventListener('change', updateFlags);
+});
+document.getElementById('mainForm').addEventListener('input', updateProgress);
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  // Set today's date
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('visit_date').value = today;
+  document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-PK', { weekday:'short', year:'numeric', month:'short', day:'numeric' });
+
+  buildRecallTable();
+  buildMealPlan();
+  buildLabRows();
+  updateFlags();
+  updateProgress();
+
+  // Load draft if available
+  if (localStorage.getItem('nis_draft')) {
+    if (confirm("Found a saved draft. Load it?")) loadDraft();
+  }
 });
 </script>
-
 </body>
 </html>
